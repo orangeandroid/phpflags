@@ -15,10 +15,10 @@ if (empty($_POST['username'])) {
                                 }
                                 
                             else {
-                                echo "Looks like you've entered an incorrect password. ";
-                                echo "You entered " . $Password;
-                                    $loginrow = $loginresult->fetch_assoc();
-                                echo " Your username was " . $Username;
+                                echo "Looks like you've entered an incorrect combination. ";
+//                                echo "You entered " . $Password;
+//                                    $loginrow = $loginresult->fetch_assoc();
+//                                echo " Your username was " . $Username;
                                 }
                                 
                             }
@@ -88,7 +88,7 @@ if (empty($_POST['username'])) {
 
         <div class="content">
             <h2 class="content-subhead">Subscription Management</h2>
-
+            <p><?php echo $_SESSION["Notification"]; ?></p>
             <?php 
                 if($_SESSION["Axel"] != "Awesome") {
                     // session isn't started

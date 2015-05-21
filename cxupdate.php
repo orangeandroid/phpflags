@@ -2,6 +2,7 @@
     include "con.php";
                 if($_SESSION["Axel"] != "Awesome") {
                     // session isn't started
+                    header('Location: index.php'); // Redirecting To Home Page
                 }
                 else {
                     $StreetName = mysqli_real_escape_string($con, $_POST['StreetName']);
@@ -77,12 +78,11 @@
 //                    Do Nothing
                     }
                     if ($con->query($sql) === TRUE) {
-                        echo "Record updated successfully";
+                        $_SESSION["Notification"] = "Record updated successfully";
                     } 
                     else {
-                        echo "Error updating record: " . $con->error;
+                        $_SESSION["Notification"] = "Error updating record: " . $con->error;
                     } 
                 }
-    
+    header('Location: index.php'); // Redirecting To Home Page
     ?>
-    </html>

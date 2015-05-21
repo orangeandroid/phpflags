@@ -1,6 +1,6 @@
-<form class="pure-form pure-form-stacked" method="post">
+<form class="pure-form pure-form-stacked" method="post" action="index.php">
     <fieldset>
-        <legend>A Stacked Form</legend>
+        <legend>You Are Not Logged In</legend>
 
         <label for="email">Email</label>
         <input id="email" type="email" placeholder="Email" name="username">
