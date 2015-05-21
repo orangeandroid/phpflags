@@ -74,8 +74,7 @@ session_start();
                     }
                     else {
                         include("addresslookupform.php");
-                }
-    
+                    }
     ?>
         </div>
     </div>
