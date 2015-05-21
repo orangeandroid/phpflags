@@ -91,7 +91,20 @@ if ($rtresult->num_rows < 1) {
 else {
 //                                Loop through all the results and display the fields in a nice table
    while($rtrow = $rtresult->fetch_assoc()) {
-        echo "<tr><td>" . $rtrow["CustomerName"]. "</td><td>" . $rtrow["HouseNum"]. " " . $rtrow["StreetName"] . " Mansfield, TX 76063</td><td>" . $rtrow["Phone"] . "</td><td><a href=\"Mailto:" . $rtrow["Email"] . "\">" . $rtrow["Email"] . "</a></td><td>" . $rtrow["VetStatus"]. "</td><td>" . $rtrow["SubStatus"]. "</td><td>" . $rtrow["ExpirationDate"]. "</td></tr>";
+//       Clean up VetStatus
+       if ($rtrow["VetStatus"] = 1) {
+           $Vet = "Yes";
+       } 
+       elseif ($rtrow["VetStatus"] = 0) { 
+           $Vet = "No";
+       } 
+       else { 
+           $Vet = "?";
+       }
+       
+       
+       
+       echo "<tr><td>" . $rtrow["CustomerName"]. "</td><td>" . $rtrow["HouseNum"]. " " . $rtrow["StreetName"] . " Mansfield, TX 76063</td><td>" . $rtrow["Phone"] . "</td><td><a href=\"Mailto:" . $rtrow["Email"] . "\">" . $rtrow["Email"] . "</a></td><td>" . $Vet . "</td><td>" . $rtrow["SubStatus"]. "</td><td>" . $rtrow["ExpirationDate"]. "</td></tr>";
 
                     }
 }
