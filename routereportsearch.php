@@ -5,7 +5,7 @@ include "con.php";
 }
     else {
 $Route = mysqli_real_escape_string($con, $_GET['route']);
-$rtsql = "Select CustomerName, HouseNum, StreetName, Route, Action from customers where Route = '" . $Route . "' and SubStatus='Active'";
+$rtsql = "Select CustomerName, HouseNum, StreetName, Route, Action from customers where Route = '" . $Route . "' and SubStatus='Active' ORDER BY StreetName, HouseNum";
 $rtresult = $con->query($rtsql);
                             if ($rtresult->num_rows < 1) {
                                 $_SESSION["Notification"] = "No Customers in that Route";
