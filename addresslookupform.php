@@ -8,13 +8,18 @@
                     <label for="streetName">Street Name</label>
                     <select id="streetName" name="streetName" required>
                         <option value="">Choose One</option>
-                        <?php 
+                        <?php
+                            $cxsql = "select distinct StreetName from customers";
+                            $cxresult = $con->query($cxsql);
                             $sql = "select distinct StreetName from approvedaddresses";
                             $result = $con->query($sql);
                             if ($result->num_rows > 0) {
                                 // output data of each row
                                 while($row = $result->fetch_assoc()) {
                                     echo "<option value= \"" . $row["StreetName"]. "\">" . $row["StreetName"]. "</option>";
+                                }
+                                while($cxrow = $cxresult->fetch_assoc()) {
+                                    echo "<option value= \"" . $cxrow["StreetName"]. "\">" . $cxrow["StreetName"]. "</option>";
                                 }
                             } 
     
