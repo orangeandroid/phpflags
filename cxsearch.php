@@ -15,7 +15,7 @@ $cxresult = $con->query($cxsql);
                                 }
     
                             else {
-                                $LookupResultMessage = "Customer Found, Do you want to update?";
+                                $LookupResultMessage = "Customer Found, Do you want to update? <br />";
                                 $cxrow = $cxresult->fetch_assoc();
                                 $CXName = $cxrow["CustomerName"];
                                 $CXPhone = $cxrow["Phone"];
@@ -105,6 +105,19 @@ $cxresult = $con->query($cxsql);
 //                    $StreetName = mysqli_real_escape_string($con, $_POST['streetName']);
                     echo $CXName . " " . $HouseNum . " " . $StreetName; 
                     echo "<br>" . $LookupResultMessage;
+                    echo "Name: " . $CXName . "<br />";
+                    echo "Phone: " . $CXPhone . "<br />";
+                    echo "Email: " . $CXEmail . "<br />";
+                    echo "PMethod: " . $CXPaymentMethod . "<br />";
+                    echo "PID: " . $CXPaymentID . "<br />";
+                    echo "PDate: " . $CXPaymentDate . "<br />";
+                    echo "VetStatus: " . $CXVetStatus . "<br />";
+                    echo "Route: " . $CXRoute . "<br />";
+                    echo "Scout1: " . $CXScoutCredit1 . "<br />";
+                    echo "Scout2: " . $CXScoutCredit2 . "<br />";
+                    echo "Submitted: " . $CXSubmittedBy . "<br />";
+                    echo "SubStatus: " . $cxrow["SubStatus"] ."<br />";
+
                 ?>
             </p>
             <?php 
