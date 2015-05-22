@@ -5,7 +5,7 @@ include "con.php";
 }
     else {
 $Route = mysqli_real_escape_string($con, $_GET['route']);
-$rtsql = "Select CustomerName, HouseNum, StreetName, Route, Action from customers where Route = '" . $Route . "' and SubStatus='Active' ORDER BY StreetName, HouseNum";
+$rtsql = "Select CustomerName, HouseNum, StreetName, Route, Action from customers where Route = '" . $Route . "' and SubStatus in ('Active','Expiring Soon') ORDER BY StreetName, HouseNum";
 $rtresult = $con->query($rtsql);
                             if ($rtresult->num_rows < 1) {
                                 $_SESSION["Notification"] = "No Customers in that Route";
@@ -14,6 +14,16 @@ $rtresult = $con->query($rtsql);
                             else {
 //                                Loop through all the results and display the fields in a nice table
                                 $rtrow = $rtresult->fetch_assoc();                                
+                            }
+        $countsql = "Select count(*) as COUNT from customers where Route = '" . $Route . "' and SubStatus in ('Active','Expiring Soon')";
+        $countresult = $con->query($countsql);
+                                    if ($countresult->num_rows < 1) {
+                                $_SESSION["Notification"] = "No Customers in that Route";
+                                }
+    
+                            else {
+                                $countrow = $countresult->fetch_assoc();
+                                $Count = $countrow['COUNT'];        
                             }
     }
 ?>
@@ -81,7 +91,7 @@ $rtresult = $con->query($rtsql);
         </div>
 
         <div class="content">
-            <h2 class="content-subhead"><?php echo $Route; ?> Route Report - Created <?php echo date('l jS \of F Y h:i:s A') ?></h2>
+            <h2 class="content-subhead"><?php echo $Route; ?> Route: <?php echo $Count; ?> Flags - Created <?php echo date('l jS \of F Y h:i:s A') ?></h2>
             <p><?php echo $_SESSION["Notification"]; ?></p>
             
             <table style="width:100%">
