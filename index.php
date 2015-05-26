@@ -83,14 +83,15 @@ if (empty($_POST['username'])) {
     <div id="main">
         <div class="header">
             <h1>Flag Subscription Manager</h1>
-            <h2><?php echo $_SESSION["displayname"]; ?> - View and manage Flag Subscriptions</h2>
+            <h2><?php if(isset($_SESSION["displayname"])){ 
+        echo $_SESSION["displayname"]; }?> - View and manage Flag Subscriptions</h2>
         </div>
 
         <div class="content">
             <h2 class="content-subhead">Subscription Management</h2>
-            <p><?php echo $_SESSION["Notification"]; ?></p>
+            <p><?php if(isset($_SESSION["Notification"])){ echo $_SESSION["Notification"];} ?></p>
             <?php 
-                if($_SESSION["Axel"] != "Awesome") {
+                if(isset($_SESSION["Axel"]) and $_SESSION["Axel"] != "Awesome") {
                     // session isn't started
                     include("loginform.php");
                 }
@@ -113,3 +114,4 @@ if (empty($_POST['username'])) {
 
 </body>
 </html>
+]
