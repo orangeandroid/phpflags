@@ -1,4 +1,4 @@
-<?php include "con.php"; 
+<?php include "conn.php"; 
 
 //SQL Queries for Status Management.
 $expiredsql = "UPDATE `customers` SET `Action`='Give Flyer and Attempt Renewal',`SubStatus`='Expired' WHERE DATEDIFF(`ExpirationDate`,CURDATE()) < 0 and SubStatus != 'Expired'";

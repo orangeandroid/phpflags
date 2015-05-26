@@ -1,5 +1,5 @@
 <?php session_start();
-include "con.php"; 
+include "conn.php"; 
     if (empty($_GET['route']) || $_SESSION["Axel"] != "Awesome" ) {
         header('Location: routes.php'); // Redirecting To Routes Page
 }

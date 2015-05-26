@@ -1,4 +1,4 @@
-<?php include "con.php"; 
+<?php include "conn.php"; 
 session_start();
 if($_SESSION["Axel"] != "Awesome") {
     // session isn't started

@@ -1,5 +1,5 @@
 <?php session_start();
-include "con.php"; 
+include "conn.php"; 
     if (empty($_GET['houseNum']) || empty($_GET['streetName'])) {
         echo "";
 }

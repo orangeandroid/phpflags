@@ -1,5 +1,5 @@
 <?php session_start();
-    include "con.php";
+    include "conn.php";
                 if($_SESSION["Axel"] != "Awesome") {
                     // session isn't started
                     header('Location: index.php'); // Redirecting To Home Page
