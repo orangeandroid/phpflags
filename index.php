@@ -11,7 +11,7 @@ if (empty($_POST['username'])) {
                             if ($loginresult->num_rows == 1) {
                                     $loginrow = $loginresult->fetch_assoc();
                                     $_SESSION["displayname"] = $loginrow["Name"];
-                                    $_SESSION["Axel"] = "Awesome";
+                                    $_SESSION["Username"] = $Username;
                                 }
                                 
                             else {
@@ -91,7 +91,7 @@ if (empty($_POST['username'])) {
             <h2 class="content-subhead">Subscription Management</h2>
             <p><?php if(isset($_SESSION["Notification"])){ echo $_SESSION["Notification"];} ?></p>
             <?php 
-                if(isset($_SESSION["Axel"]) and $_SESSION["Axel"] != "Awesome") {
+                if(!isset($_SESSION["Username"]) ) {
                     // session isn't started
                     include("loginform.php");
                 }

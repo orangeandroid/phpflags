@@ -1,6 +1,6 @@
 <?php session_start();
 include "conn.php"; 
-    if (empty($_GET['route']) || $_SESSION["Axel"] != "Awesome" ) {
+    if (empty($_GET['route']) || !isset($_SESSION["Username"]) ) {
         header('Location: routes.php'); // Redirecting To Routes Page
 }
     else {

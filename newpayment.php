@@ -68,7 +68,7 @@ session_start();
             <h2 class="content-subhead">Subscription Management</h2>
                 <?php 
                     
-                    if($_SESSION["Axel"] != "Awesome") {
+                    if(!isset($_SESSION["Username"])) {
                     // session isn't started
                         include("loginform.php");
                     }

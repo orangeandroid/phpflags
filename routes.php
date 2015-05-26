@@ -62,14 +62,14 @@ session_start();
         <div class="header">
             <h1>Flag Subscription Manager</h1>
             <h2>View and manage Flag Subscriptions</h2>
-            <p><?php echo $_SESSION["Notification"]; ?></p>
+            <p><?php if(isset($_SESSION["Notification"])){ echo $_SESSION["Notification"];} ?></p>
         </div>
 
         <div class="content">
             <h2 class="content-subhead">Subscription Management</h2>
                 <?php 
                     
-                    if($_SESSION["Axel"] != "Awesome") {
+                    if(!isset($_SESSION["Username"])) {
                     // session isn't started
                         include("loginform.php");
                     }
