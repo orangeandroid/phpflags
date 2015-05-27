@@ -11,19 +11,24 @@ $Expiredemailresult = $con->query($Expiredemailsql);
 
 if ($Expiredemailresult->num_rows > 0) {
     while($expdrow = $Expiredemailresult->fetch_assoc()) {
-        $RecipEmail = $expdrow['Email'];
-        $RecipName = $expdrow['CustomerName'];
-        $Subject = 'Your Flag Service Has Ended - Renew Now';
-        $Body = "Dear " . $expdrow['CustomerName'] . ", <br /> <p>Your Flag Service has ended. Please visit <a href='http://troop833.com/flags'> Our Website </a> To Renew. We appreciate your conintued support.</p> Thanks,<br />Troop 833";
-        $AltBody = 'Your Flag Service has ended. To Renew, please visit http://troop833.com/flags';
-
-        $expiredresponse = FlagMail($RecipEmail, $RecipName, $Subject, $Body, $AltBody);
-
-        if ($expiredresponse == 'Success') {
-            $ExpiredSuccessCount++;
+        if ($expdrow['Email'] == '') {
+            $ExpiredFailCount++;
         }
         else {
-            $ExpiredFailCount++;
+            $RecipEmail = $expdrow['Email'];
+            $RecipName = $expdrow['CustomerName'];
+            $Subject = 'Your Flag Service Has Ended - Renew Now';
+            $Body = "Dear " . $expdrow['CustomerName'] . ", <br /> <p>Your Flag Service has expired. Please visit <a href='http://troop833.com/flags'> Our Website </a> To Renew. We appreciate your continued support.</p> Thanks,<br />Troop 833";
+            $AltBody = 'Your Flag Service has ended. To Renew, please visit http://troop833.com/flags';
+
+            $expiredresponse = FlagMail($RecipEmail, $RecipName, $Subject, $Body, $AltBody);
+
+            if ($expiredresponse == 'Success') {
+                $ExpiredSuccessCount++;
+            }
+            else {
+                $ExpiredFailCount++;
+            }
         }
     }
 }
@@ -41,20 +46,25 @@ $Expiringemailresult = $con->query($Expiringemailsql);
 
 if ($Expiringemailresult->num_rows > 0) {
     while($expgrow = $Expiringemailresult->fetch_assoc()) {
-        $RecipEmail = $expgrow['Email'];
-        $RecipName = $expgrow['CustomerName'];
-        $Subject = 'Your Flag Service Is Expiring Soon - Renew Now';
-        $Body = 'Your Flag Service ends ' . $expgrow['ExpirationDate'] . '. To Renew, please visit http://troop833.com/flags or reply to this e-mail.';
-        $AltBody = 'Your Flag Service ends ' . $expgrow['ExpirationDate'] . '. To Renew, please visit http://troop833.com/flags or reply to this e-mail.';
-
-
-        $expiringresponse = FlagMail($RecipEmail, $RecipName, $Subject, $Body, $AltBody);
-
-        if ($expiringresponse == 'Success') {
-            $ExpiringSuccessCount++;
+        if ($expgrow['Email'] == '') {
+            $ExpiringFailCount++;
         }
         else {
-            $ExpiringFailCount++;
+            $RecipEmail = $expgrow['Email'];
+            $RecipName = $expgrow['CustomerName'];
+            $Subject = 'Your Flag Service Is Expiring Soon - Renew Now';
+            $Body = 'Your Flag Service ends ' . $expgrow['ExpirationDate'] . '. To Renew, please visit http://troop833.com/flags or reply to this e-mail.';
+            $AltBody = 'Your Flag Service ends ' . $expgrow['ExpirationDate'] . '. To Renew, please visit http://troop833.com/flags or reply to this e-mail.';
+
+
+            $expiringresponse = FlagMail($RecipEmail, $RecipName, $Subject, $Body, $AltBody);
+
+            if ($expiringresponse == 'Success') {
+                $ExpiringSuccessCount++;
+            }
+            else {
+                $ExpiringFailCount++;
+            }
         }
     }
 }
@@ -72,6 +82,10 @@ $Activeemailresult = $con->query($Activeemailsql);
 
 if ($Activeemailresult->num_rows > 0) {
     while($activerow = $Activeemailresult->fetch_assoc()) {
+        if ($activerow['Email'] == '') {
+            $ActiveFailCount++;
+        }
+        else {
         $RecipEmail = $activerow['Email'];
         $RecipName = $activerow['CustomerName'];
         $Subject = 'Your Flag Service Is Now Active - Thanks For Your Support';
@@ -86,6 +100,7 @@ if ($Activeemailresult->num_rows > 0) {
         else {
             $ActiveFailCount++;
         }
+    }
     }
 }
 echo "Active Emails Sent: " . $ActiveSuccessCount . "<br />";
