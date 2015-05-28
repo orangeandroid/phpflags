@@ -150,49 +150,26 @@ echo $ActiveResult . "<br / >";*/
 //Notify Scouts 30 days out
 $n30SuccessCount = 0;
 $n30FailCount = 0;
-$n30sql = "Select * from schedule WHERE DATEDIFF(`HolidayDate`,CURDATE()) between 14 and 30 and Notified = 300";
+$n30sql = "select schedule.*, users.Email, users.AlternateEmail from schedule INNER JOIN users ON schedule.Name=users.Name WHERE DATEDIFF(schedule.HolidayDate,CURDATE()) between 14 and 30 and schedule.Notified = 300";
 
 $n30result = $con->query($n30sql);
 
 if ($n30result->num_rows > 0) {
  while($n30row = $n30result->fetch_assoc()) {
-     echo $n30row['HolidayName'] . " Is coming up on " . $n30row['HolidayDate'] . ".";
-        
-     //n30 Setup
-     $scoutsql = "select * from users where Name in ('" . $n30row['SetUp1'] . "', '" . $n30row['SetUp2'] . "', '" . $n30row['SetUp3'] . "', '" . $n30row['SetUp4'] . "') and Role='Scout'";
-     $scoutresult = $con->query($scoutsql);
-     
-     while($scoutrow = $scoutresult->fetch_assoc()) {
-     
-     $RecipEmail = $scoutrow['Email'];
-     $RecipName = $scoutrow['Name'];
-     $Subject = 'You Have a Flag Setup Assignment';
-     $Body = "Dear " . $scoutrow['Name'] . ", <br /> <p>This is a friendly reminder that you've been assigned to set up flags on " . $n30row['HolidayName'] . " (" . $n30row['HolidayDate'] . ").</p> <p>Please just make sure you're available on that day, and find a substitute if you're not. </p> <p>You will be getting another reminder in a couple weeks and then one final e-mail the day before with your route attached.</p> Thanks,<br />Troop 833";
-     $AltBody = "This is a friendly reminder that you've been assigned to set up flags on " . $n30row['HolidayDate'] . ".";
+     echo $n30row['HolidayName'] . " Is coming up on " . $n30row['HolidayDate'] . ". " . $n30row['Name'] . " is assigned to " . $n30row['Task'] . " the " . $n30row['Route'] . " Route. <br />";
+ 
+     $recipients = array(
+   $n30row['Email'] => $n30row['Name'],
+   $n30row['AlternateEmail'] => $n30row['Name']
+);
 
-     $n30response = FlagMail($RecipEmail, $RecipName, $Subject, $Body, $AltBody);
+     $RecipEmail = $n30row['Email'];
+     $RecipName = $n30row['Name'];
+     $Subject = $n30row['Name'] . " Has a Flag" . $n30row['Task'] . " Assignment";
+     $Body = "Dear " . $n30row['Name'] . ", <br /> <p>This is a friendly reminder that you've been assigned to " . $n30row['Task'] . " flags on " . $n30row['HolidayName'] . " (" . $n30row['HolidayDate'] . ").</p> <p>Please just make sure you're available on that day, and find someone to swap with if you're not. </p> <p>You will be getting another reminder in a couple weeks and then one final e-mail the day before with your route attached.</p> Thanks,<br />Troop 833";
+     $AltBody = "This is a friendly reminder that you've been assigned to " . $n30row['Task'] . " flags on " . $n30row['HolidayDate'] . ".";
 
-     if ($n30response == 'Success') {
-         $n30SuccessCount++;
-     }
-     else {
-         $n30FailCount++;
-     }
-     }
-     
-     //n30 TakeDown
-          $scoutsql = "select * from users where Name in ('" . $n30row['TakeDown1'] . "', '" . $n30row['TakeDown2'] . "', '" . $n30row['TakeDown3'] . "', '" . $n30row['TakeDown4'] . "')";
-     $scoutresult = $con->query($scoutsql);
-     
-     while($scoutrow = $scoutresult->fetch_assoc()) {
-     
-     $RecipEmail = $scoutrow['Email'];
-     $RecipName = $scoutrow['Name'];
-     $Subject = 'You Have a Flag Take Down Assignment';
-     $Body = "Dear " . $scoutrow['Name'] . ", <br /> <p>This is a friendly reminder that you've been assigned to take down flags on " . $n30row['HolidayName'] . " (" . $n30row['HolidayDate'] . ").</p> <p>Please just make sure you're available on that day, and swap with someone if you're not. </p> <p>You will be getting another reminder in a couple weeks and then one final e-mail the day before with your route attached.</p> Thanks,<br />Troop 833";
-     $AltBody = "This is a friendly reminder that you've been assigned to take down flags on " . $n30row['HolidayDate'] . ".";
-
-     $n30response = FlagMail($RecipEmail, $RecipName, $Subject, $Body, $AltBody);
+     $n30response = FlagMail($recipients, $Subject, $Body, $AltBody);
 
      if ($n30response == 'Success') {
          $n30SuccessCount++;
@@ -202,11 +179,11 @@ if ($n30result->num_rows > 0) {
      }
      }
  
- }
-    //update the database so we don't send the notification again
-//$n30updatesql = "update schedule set Notified = 30 WHERE DATEDIFF(`HolidayDate`,CURDATE()) between 14 and 30 and Notified = 300";
-//$n30updateresult = $con->query($n30updatesql);
-//echo "Holidays Notified=30 <br />";
+ 
+//    update the database so we don't send the notification again
+$n30updatesql = "update schedule set Notified = 30 WHERE DATEDIFF(`HolidayDate`,CURDATE()) between 14 and 30 and Notified = 300";
+$n30updateresult = $con->query($n30updatesql);
+echo "Holidays Notified=30 <br />";
     echo "n30 Email Success: " . $n30SuccessCount . "<br />";
     echo "n30 Email Failures: " . $n30FailCount . "<br />";
 }
@@ -214,32 +191,28 @@ if ($n30result->num_rows > 0) {
 
 
 //Notify Scouts 14 days out
-$n14sql = "Select * from schedule WHERE DATEDIFF(`HolidayDate`,CURDATE()) between 7 and 14 and Notified = 30";
+$n14SuccessCount = 0;
+$n14FailCount = 0;
+$n14sql = "select schedule.*, users.Email, users.AlternateEmail from schedule INNER JOIN users ON schedule.Name=users.Name WHERE DATEDIFF(schedule.HolidayDate,CURDATE()) between 7 and 14 and schedule.Notified = 30";
 
 $n14result = $con->query($n14sql);
 
 if ($n14result->num_rows > 0) {
  while($n14row = $n14result->fetch_assoc()) {
-     echo $n14row['HolidayName'] . " Is coming up on " .$n14row['HolidayDate'];
- }
-    //update holiday to show notified
-    $n14updatesql = "update schedule set Notified = 14 WHERE DATEDIFF(`HolidayDate`,CURDATE()) between 7 and 14 and Notified = 30";
-    $n14updateresult = $con->query($n14updatesql);
-    echo "Holidays Notified=14";
-    
-     //n14 Setup
-     $scoutsql = "select * from users where Name in ('" . $n14row['SetUp1'] . "', '" . $n14row['SetUp2'] . "', '" . $n14row['SetUp3'] . "', '" . $n14row['SetUp4'] . "') and Role='Scout'";
-     $scoutresult = $con->query($scoutsql);
-     
-     while($scoutrow = $scoutresult->fetch_assoc()) {
-     
-     $RecipEmail = $scoutrow['Email'];
-     $RecipName = $scoutrow['Name'];
-     $Subject = 'You Have a Flag Setup Assignment';
-     $Body = "Dear " . $scoutrow['Name'] . ", <br /> <p>This is a friendly reminder that you've been assigned to set up flags on " . $n14row['HolidayName'] . " (" . $n14row['HolidayDate'] . ").</p> <p>Please just make sure you're available on that day, and find a substitute if you're not. </p> <p>You will be getting another reminder in one week and then one final e-mail the day before with your route attached.</p> Thanks,<br />Troop 833";
-     $AltBody = "This is a friendly reminder that you've been assigned to set up flags on " . $n14row['HolidayDate'] . ".";
+     echo $n14row['HolidayName'] . " Is coming up on " . $n14row['HolidayDate'] . ". " . $n14row['Name'] . " is assigned to " . $n14row['Task'] . " the " . $n14row['Route'] . " Route. <br />";
+ 
+     $recipients = array(
+   $n14row['Email'] => $n14row['Name'],
+   $n14row['AlternateEmail'] => $n14row['Name']
+);
 
-     $n14response = FlagMail($RecipEmail, $RecipName, $Subject, $Body, $AltBody);
+     $RecipEmail = $n14row['Email'];
+     $RecipName = $n14row['Name'];
+     $Subject = $n14row['Name'] . " Has a Flag" . $n14row['Task'] . " Assignment";
+     $Body = "Dear " . $n14row['Name'] . ", <br /> <p>This is a friendly reminder that you've been assigned to " . $n14row['Task'] . " flags on " . $n14row['HolidayName'] . " (" . $n14row['HolidayDate'] . ").</p> <p>Please just make sure you're available on that day, and find someone to swap with if you're not. </p> <p>You will be getting another reminder in one week and then one final e-mail the day before with your route attached.</p> Thanks,<br />Troop 833";
+     $AltBody = "This is a friendly reminder that you've been assigned to " . $n14row['Task'] . " flags on " . $n14row['HolidayDate'] . ".";
+
+     $n14response = FlagMail($recipients, $Subject, $Body, $AltBody);
 
      if ($n14response == 'Success') {
          $n14SuccessCount++;
@@ -248,74 +221,40 @@ if ($n14result->num_rows > 0) {
          $n14FailCount++;
      }
      }
-     
-     //n14 TakeDown
-          $scoutsql = "select * from users where Name in ('" . $n14row['TakeDown1'] . "', '" . $n14row['TakeDown2'] . "', '" . $n14row['TakeDown3'] . "', '" . $n14row['TakeDown4'] . "')";
-     $scoutresult = $con->query($scoutsql);
-     
-     while($scoutrow = $scoutresult->fetch_assoc()) {
-     
-     $RecipEmail = $scoutrow['Email'];
-     $RecipName = $scoutrow['Name'];
-     $Subject = 'You Have a Flag Take Down Assignment';
-     $Body = "Dear " . $scoutrow['Name'] . ", <br /> <p>This is a friendly reminder that you've been assigned to take down flags on " . $n14row['HolidayName'] . " (" . $n14row['HolidayDate'] . ").</p> <p>Please just make sure you're available on that day, and swap with someone if you're not. </p> <p>You will be getting another reminder in one week and then one final e-mail the day before with your route attached.</p> Thanks,<br />Troop 833";
-     $AltBody = "This is a friendly reminder that you've been assigned to take down flags on " . $n14row['HolidayDate'] . ".";
-
-     $n14response = FlagMail($RecipEmail, $RecipName, $Subject, $Body, $AltBody);
-
-     if ($n14response == 'Success') {
-         $n14SuccessCount++;
-     }
-     else {
-         $n14FailCount++;
-     }
-     }
+ 
+ 
+//    update the database so we don't send the notification again
+$n14updatesql = "update schedule set Notified = 14 WHERE DATEDIFF(`HolidayDate`,CURDATE()) between 7 and 14 and Notified = 30";
+$n14updateresult = $con->query($n14updatesql);
+echo "Holidays Notified=30 <br />";
+    echo "n14 Email Success: " . $n14SuccessCount . "<br />";
+    echo "n14 Email Failures: " . $n14FailCount . "<br />";
 }
 
 
-//Notify Scouts 7 days out - Include a map of the area, but no addresses. -Include Flyer attachments and estimate of flyer actions
-$n7sql = "Select * from schedule WHERE DATEDIFF(`HolidayDate`,CURDATE()) between 1 and 7 and Notified = 14";
+//Notify Scouts 7 days out
+$n7SuccessCount = 0;
+$n7FailCount = 0;
+$n7sql = "select schedule.*, users.Email, users.AlternateEmail from schedule INNER JOIN users ON schedule.Name=users.Name WHERE DATEDIFF(schedule.HolidayDate,CURDATE()) between 3 and 7 and schedule.Notified = 14";
 
 $n7result = $con->query($n7sql);
 
 if ($n7result->num_rows > 0) {
  while($n7row = $n7result->fetch_assoc()) {
-     echo $n7row['HolidayName'] . " Is coming up on " .$n7row['HolidayDate'];
-      //n7 Setup
-     $scoutsql = "select * from users where Name in ('" . $n7row['SetUp1'] . "', '" . $n7row['SetUp2'] . "', '" . $n7row['SetUp3'] . "', '" . $n7row['SetUp4'] . "') and Role='Scout'";
-     $scoutresult = $con->query($scoutsql);
-     
-     while($scoutrow = $scoutresult->fetch_assoc()) {
-     
-     $RecipEmail = $scoutrow['Email'];
-     $RecipName = $scoutrow['Name'];
-     $Subject = 'You Have a Flag Setup Assignment';
-     $Body = "Dear " . $scoutrow['Name'] . ", <br /> <p>This is a friendly reminder that you've been assigned to set up flags on " . $n7row['HolidayName'] . " (" . $n7row['HolidayDate'] . ").</p> <p>Please just make sure you're available on that day, and find a substitute if you're not. </p> <p>You will be getting a final e-mail the day before your assignment with your route attached.</p> Thanks,<br />Troop 833";
-     $AltBody = "This is a friendly reminder that you've been assigned to set up flags on " . $n7row['HolidayDate'] . ".";
+     echo $n7row['HolidayName'] . " Is coming up on " . $n7row['HolidayDate'] . ". " . $n7row['Name'] . " is assigned to " . $n7row['Task'] . " the " . $n7row['Route'] . " Route. <br />";
+ 
+     $recipients = array(
+   $n7row['Email'] => $n7row['Name'],
+   $n7row['AlternateEmail'] => $n7row['Name']
+);
 
-     $n7response = FlagMail($RecipEmail, $RecipName, $Subject, $Body, $AltBody);
+     $RecipEmail = $n7row['Email'];
+     $RecipName = $n7row['Name'];
+     $Subject = $n7row['Name'] . " Has a Flag" . $n7row['Task'] . " Assignment";
+     $Body = "Dear " . $n7row['Name'] . ", <br /> <p>This is a friendly reminder that you've been assigned to " . $n7row['Task'] . " flags on " . $n7row['HolidayName'] . " (" . $n7row['HolidayDate'] . ").</p> <p>Please just make sure you're available on that day, and find someone to swap with if you're not. </p> <p>You will be getting a final e-mail the day before with your route attached.</p> Thanks,<br />Troop 833";
+     $AltBody = "This is a friendly reminder that you've been assigned to " . $n7row['Task'] . " flags on " . $n7row['HolidayDate'] . ".";
 
-     if ($n7response == 'Success') {
-         $n7SuccessCount++;
-     }
-     else {
-         $n7FailCount++;
-     }
-     }
-     
-     //n7 TakeDown
-          $scoutsql = "select * from users where Name in ('" . $n7row['TakeDown1'] . "', '" . $n7row['TakeDown2'] . "', '" . $n7row['TakeDown3'] . "', '" . $n7row['TakeDown4'] . "')";
-     $scoutresult = $con->query($scoutsql);
-     
-     while($scoutrow = $scoutresult->fetch_assoc()) {
-     
-     $RecipEmail = $scoutrow['Email'];
-     $RecipName = $scoutrow['Name'];
-     $Subject = 'You Have a Flag Take Down Assignment';
-     $Body = "Dear " . $scoutrow['Name'] . ", <br /> <p>This is a friendly reminder that you've been assigned to take down flags on " . $n7row['HolidayName'] . " (" . $n7row['HolidayDate'] . ").</p> <p>Please just make sure you're available on that day, and swap with someone if you're not. </p> <p>You will be getting a final e-mail the day before your assignment with your route attached.</p> Thanks,<br />Troop 833";
-     $AltBody = "This is a friendly reminder that you've been assigned to take down flags on " . $n7row['HolidayDate'] . ".";
-
-     $n7response = FlagMail($RecipEmail, $RecipName, $Subject, $Body, $AltBody);
+     $n7response = FlagMail($recipients, $Subject, $Body, $AltBody);
 
      if ($n7response == 'Success') {
          $n7SuccessCount++;
@@ -324,57 +263,40 @@ if ($n7result->num_rows > 0) {
          $n7FailCount++;
      }
      }
- }
-    
-    //update holiday to show notified
-    $n7updatesql = "update schedule set Notified = 7 WHERE DATEDIFF(`HolidayDate`,CURDATE()) between 1 and 7 and Notified = 14";
-    $n7updateresult = $con->query($n7updatesql);
-    echo "Holidays Notified=7";
+ 
+ 
+//    update the database so we don't send the notification again
+$n7updatesql = "update schedule set Notified = 7 WHERE DATEDIFF(`HolidayDate`,CURDATE()) between 3 and 7 and Notified = 14";
+$n7updateresult = $con->query($n7updatesql);
+echo "Holidays Notified=30 <br />";
+    echo "n7 Email Success: " . $n7SuccessCount . "<br />";
+    echo "n7 Email Failures: " . $n7FailCount . "<br />";
 }
 
-//Send Routes - or links to routes, or both -  the Day before
-$n1sql = "Select * from schedule WHERE DATEDIFF(`HolidayDate`,CURDATE()) = 1 and Notified = 7";
+
+//Notify Scouts 7 days out
+$n1SuccessCount = 0;
+$n1FailCount = 0;
+$n1sql = "select schedule.*, users.Email, users.AlternateEmail from schedule INNER JOIN users ON schedule.Name=users.Name WHERE DATEDIFF(schedule.HolidayDate,CURDATE()) between 0 and 2 and schedule.Notified = 7";
 
 $n1result = $con->query($n1sql);
 
 if ($n1result->num_rows > 0) {
  while($n1row = $n1result->fetch_assoc()) {
-     echo $n1row['HolidayName'] . " Is coming up on " .$n1row['HolidayDate'];
-     //n1 Setup
-     $scoutsql = "select * from users where Name in ('" . $n1row['SetUp1'] . "', '" . $n1row['SetUp2'] . "', '" . $n1row['SetUp3'] . "', '" . $n1row['SetUp4'] . "') and Role='Scout'";
-     $scoutresult = $con->query($scoutsql);
-     
-     while($scoutrow = $scoutresult->fetch_assoc()) {
-     
-     $RecipEmail = $scoutrow['Email'];
-     $RecipName = $scoutrow['Name'];
-     $Subject = 'You Have a Flag Setup Assignment';
-     $Body = "Dear " . $scoutrow['Name'] . ", <br /> <p>This is a friendly reminder that you've been assigned to set up flags on " . $n1row['HolidayName'] . " (" . $n1row['HolidayDate'] . ").</p> <p>Please go download your route: <a href='http://flags.troop833.com/routes.php?route=" .  . "'></a></p> <p>You will be getting another reminder in a couple weeks and then one final e-mail the day before with your route attached.</p> Thanks,<br />Troop 833";
-     $AltBody = "This is a friendly reminder that you've been assigned to set up flags on " . $n1row['HolidayDate'] . ".";
+     echo $n1row['HolidayName'] . " Is coming up on " . $n1row['HolidayDate'] . ". " . $n1row['Name'] . " is assigned to " . $n1row['Task'] . " the " . $n1row['Route'] . " Route. <br />";
+ 
+     $recipients = array(
+   $n1row['Email'] => $n1row['Name'],
+   $n1row['AlternateEmail'] => $n1row['Name']
+);
 
-     $n1response = FlagMail($RecipEmail, $RecipName, $Subject, $Body, $AltBody);
+     $RecipEmail = $n1row['Email'];
+     $RecipName = $n1row['Name'];
+     $Subject = $n1row['Name'] . " Has a Flag" . $n1row['Task'] . " Assignment";
+     $Body = "Dear " . $n1row['Name'] . ", <br /> <p>This is a friendly reminder that you've been assigned to " . $n1row['Task'] . " flags on " . $n1row['HolidayName'] . " (" . $n1row['HolidayDate'] . ").</p> <p>Please go <a href=''>Download Your Route Now</a>.</p> Thanks,<br />Troop 833";
+     $AltBody = "This is a friendly reminder that you've been assigned to " . $n1row['Task'] . " flags on " . $n1row['HolidayDate'] . ".";
 
-     if ($n1response == 'Success') {
-         $n1SuccessCount++;
-     }
-     else {
-         $n1FailCount++;
-     }
-     }
-     
-     //n1 TakeDown
-          $scoutsql = "select * from users where Name in ('" . $n1row['TakeDown1'] . "', '" . $n1row['TakeDown2'] . "', '" . $n1row['TakeDown3'] . "', '" . $n1row['TakeDown4'] . "')";
-     $scoutresult = $con->query($scoutsql);
-     
-     while($scoutrow = $scoutresult->fetch_assoc()) {
-     
-     $RecipEmail = $scoutrow['Email'];
-     $RecipName = $scoutrow['Name'];
-     $Subject = 'You Have a Flag Take Down Assignment';
-     $Body = "Dear " . $scoutrow['Name'] . ", <br /> <p>This is a friendly reminder that you've been assigned to take down flags on " . $n1row['HolidayName'] . " (" . $n1row['HolidayDate'] . ").</p> <p>Please just make sure you're available on that day, and swap with someone if you're not. </p> <p>You will be getting another reminder in a couple weeks and then one final e-mail the day before with your route attached.</p> Thanks,<br />Troop 833";
-     $AltBody = "This is a friendly reminder that you've been assigned to take down flags on " . $n1row['HolidayDate'] . ".";
-
-     $n1response = FlagMail($RecipEmail, $RecipName, $Subject, $Body, $AltBody);
+     $n1response = FlagMail($recipients, $Subject, $Body, $AltBody);
 
      if ($n1response == 'Success') {
          $n1SuccessCount++;
@@ -383,12 +305,14 @@ if ($n1result->num_rows > 0) {
          $n1FailCount++;
      }
      }
- }
-    //update holiday to show notified
-    $n1updatesql = "update schedule set Notified = 2 WHERE DATEDIFF(`HolidayDate`,CURDATE()) = 2 and Notified = 7";
-    $n1updateresult = $con->query($n1updatesql);
-    echo "Holidays Notified=1";
+ 
+ 
+//    update the database so we don't send the notification again
+$n1updatesql = "update schedule set Notified = 1 WHERE DATEDIFF(`HolidayDate`,CURDATE()) between 0 and 2 and Notified = 7";
+$n1updateresult = $con->query($n1updatesql);
+echo "Holidays Notified=30 <br />";
+    echo "n1 Email Success: " . $n1SuccessCount . "<br />";
+    echo "n1 Email Failures: " . $n1FailCount . "<br />";
 }
-
 
 ?>
