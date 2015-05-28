@@ -1,7 +1,10 @@
 <?php include "conn.php"; 
 include "sendmail.php";
 
-/*// Notify Customers of Status Changes - Expired
+$values = array(
+);
+
+// Notify Customers of Status Changes - Expired
 $ExpiredSuccessCount = 0;
 $ExpiredFailCount = 0;
 
@@ -33,6 +36,8 @@ if ($Expiredemailresult->num_rows > 0) {
     }
 }
 
+$values["Expired Emails Sent: "] = $ExpiredSuccessCount;
+$values["Expired Emails Failed: "] = $ExpiredFailCount;
 echo "Expired Emails Sent: " . $ExpiredSuccessCount . "<br />";
 echo "Expired Emails Failed: " . $ExpiredFailCount . "<br />";
 
@@ -69,6 +74,8 @@ if ($Expiringemailresult->num_rows > 0) {
     }
 }
 
+$values["Expiring Soon Emails Sent: "] = $ExpiringSuccessCount;
+$values["Expiring Soon Emails Failed: "] = $ExpiringFailCount;
 
 echo "Expiring Soon Emails Sent: " . $ExpiringSuccessCount . "<br />";
 echo "Expiring Soon Emails Failed: " . $ExpiringFailCount . "<br />";
@@ -103,6 +110,8 @@ if ($Activeemailresult->num_rows > 0) {
     }
     }
 }
+$values["Active Emails Sent: "] = $ActiveSuccessCount;
+$values["Active Emails Failed: "] = $ActiveFailCount;
 echo "Active Emails Sent: " . $ActiveSuccessCount . "<br />";
 echo "Active Emails Failed: " . $ActiveFailCount . "<br />";
 
@@ -138,9 +147,13 @@ else {
 
 //Echo the Results
 
+$values["Expired Result: "] = $ExpirationResult;
+$values["Expiring Result: "] = $ExpiringResult;
+$values["Active Result: "] = $ActiveResult;
+
 echo $ExpirationResult . "<br / >";
 echo $ExpiringResult . "<br / >";
-echo $ActiveResult . "<br / >";*/
+echo $ActiveResult . "<br / >";
 
 
 // Check for upcoming Holidays
@@ -155,7 +168,7 @@ $n30result = $con->query($n30sql);
 
 if ($n30result->num_rows > 0) {
  while($n30row = $n30result->fetch_assoc()) {
-     echo $n30row['HolidayName'] . " Is coming up on " . $n30row['HolidayDate'] . ". " . $n30row['Name'] . " is assigned to " . $n30row['Task'] . " the " . $n30row['Route'] . " Route. <br />";
+//     echo $n30row['HolidayName'] . " Is coming up on " . $n30row['HolidayDate'] . ". " . $n30row['Name'] . " is assigned to " . $n30row['Task'] . " the " . $n30row['Route'] . " Route. <br />";
  
      $recipients = array(
    $n30row['Email'] => $n30row['Name'],
@@ -164,7 +177,7 @@ if ($n30result->num_rows > 0) {
 
      $RecipEmail = $n30row['Email'];
      $RecipName = $n30row['Name'];
-     $Subject = $n30row['Name'] . " Has a Flag" . $n30row['Task'] . " Assignment";
+     $Subject = $n30row['Name'] . " Has a Flag " . $n30row['Task'] . " Assignment";
      $Body = "Dear " . $n30row['Name'] . ", <br /> <p>This is a friendly reminder that you've been assigned to " . $n30row['Task'] . " flags on " . $n30row['HolidayName'] . " (" . $n30row['HolidayDate'] . ").</p> <p>Please just make sure you're available on that day, and find someone to swap with if you're not. </p> <p>You will be getting another reminder in a couple weeks and then one final e-mail the day before with your route attached.</p> Thanks,<br />Troop 833";
      $AltBody = "This is a friendly reminder that you've been assigned to " . $n30row['Task'] . " flags on " . $n30row['HolidayDate'] . ".";
 
@@ -182,7 +195,9 @@ if ($n30result->num_rows > 0) {
 //    update the database so we don't send the notification again
 $n30updatesql = "update schedule set Notified = 30 WHERE DATEDIFF(`HolidayDate`,CURDATE()) between 14 and 30 and Notified = 300";
 $n30updateresult = $con->query($n30updatesql);
-echo "Holidays Notified=30 <br />";
+
+    $values["n30 Email Success: "] = $n30SuccessCount;
+    $values["n30 Email Failures: "] = $n30FailCount;
     echo "n30 Email Success: " . $n30SuccessCount . "<br />";
     echo "n30 Email Failures: " . $n30FailCount . "<br />";
 }
@@ -207,7 +222,7 @@ if ($n14result->num_rows > 0) {
 
      $RecipEmail = $n14row['Email'];
      $RecipName = $n14row['Name'];
-     $Subject = $n14row['Name'] . " Has a Flag" . $n14row['Task'] . " Assignment";
+     $Subject = $n14row['Name'] . " Has a Flag " . $n14row['Task'] . " Assignment";
      $Body = "Dear " . $n14row['Name'] . ", <br /> <p>This is a friendly reminder that you've been assigned to " . $n14row['Task'] . " flags on " . $n14row['HolidayName'] . " (" . $n14row['HolidayDate'] . ").</p> <p>Please just make sure you're available on that day, and find someone to swap with if you're not. </p> <p>You will be getting another reminder in one week and then one final e-mail the day before with your route attached.</p> Thanks,<br />Troop 833";
      $AltBody = "This is a friendly reminder that you've been assigned to " . $n14row['Task'] . " flags on " . $n14row['HolidayDate'] . ".";
 
@@ -226,6 +241,8 @@ if ($n14result->num_rows > 0) {
 $n14updatesql = "update schedule set Notified = 14 WHERE DATEDIFF(`HolidayDate`,CURDATE()) between 7 and 14 and Notified = 30";
 $n14updateresult = $con->query($n14updatesql);
 echo "Holidays Notified=30 <br />";
+    $values["n14 Email Success: "] = $n14SuccessCount;
+    $values["n14 Email Failures: "] = $n14FailCount;
     echo "n14 Email Success: " . $n14SuccessCount . "<br />";
     echo "n14 Email Failures: " . $n14FailCount . "<br />";
 }
@@ -249,7 +266,7 @@ if ($n7result->num_rows > 0) {
 
      $RecipEmail = $n7row['Email'];
      $RecipName = $n7row['Name'];
-     $Subject = $n7row['Name'] . " Has a Flag" . $n7row['Task'] . " Assignment";
+     $Subject = $n7row['Name'] . " Has a Flag " . $n7row['Task'] . " Assignment";
      $Body = "Dear " . $n7row['Name'] . ", <br /> <p>This is a friendly reminder that you've been assigned to " . $n7row['Task'] . " flags on " . $n7row['HolidayName'] . " (" . $n7row['HolidayDate'] . ").</p> <p>Please just make sure you're available on that day, and find someone to swap with if you're not. </p> <p>You will be getting a final e-mail the day before with your route attached.</p> Thanks,<br />Troop 833";
      $AltBody = "This is a friendly reminder that you've been assigned to " . $n7row['Task'] . " flags on " . $n7row['HolidayDate'] . ".";
 
@@ -268,6 +285,8 @@ if ($n7result->num_rows > 0) {
 $n7updatesql = "update schedule set Notified = 7 WHERE DATEDIFF(`HolidayDate`,CURDATE()) between 3 and 7 and Notified = 14";
 $n7updateresult = $con->query($n7updatesql);
 echo "Holidays Notified=30 <br />";
+    $values["n7 Email Success: "] = $n7SuccessCount;
+    $values["n7 Email Failures: "] = $n7FailCount;
     echo "n7 Email Success: " . $n7SuccessCount . "<br />";
     echo "n7 Email Failures: " . $n7FailCount . "<br />";
 }
@@ -291,7 +310,7 @@ if ($n1result->num_rows > 0) {
 
      $RecipEmail = $n1row['Email'];
      $RecipName = $n1row['Name'];
-     $Subject = $n1row['Name'] . " Has a Flag" . $n1row['Task'] . " Assignment";
+     $Subject = $n1row['Name'] . " Your Flag " . $n1row['Task'] . " Assignment Has Arrived!";
      $Body = "Dear " . $n1row['Name'] . ", <br /> <p>You've been assigned to " . $n1row['Task'] . " flags on " . $n1row['HolidayName'] . " (" . $n1row['HolidayDate'] . "). You have been assigned the " . $n1row['Route'] . " Route.</p> <p>Please go <a href='http://flags.troop833.com/routereportsearch.php?route=" . $n1row['Route'] . "&name=" . $n1row['Name'] . "'>Download Your Route Now</a>.</p> Thanks,<br />Troop 833";
      $AltBody = "This is a friendly reminder that you've been assigned to " . $n1row['Task'] . " flags on " . $n1row['HolidayDate'] . ".";
 
@@ -310,8 +329,33 @@ if ($n1result->num_rows > 0) {
 $n1updatesql = "update schedule set Notified = 1 WHERE DATEDIFF(`HolidayDate`,CURDATE()) between 0 and 2 and Notified = 7";
 $n1updateresult = $con->query($n1updatesql);
 echo "Holidays Notified=30 <br />";
+    $values["n1 Email Success: "] = $n1SuccessCount;
+    $values["n1 Email Failures: "] = $n1FailCount;
     echo "n1 Email Success: " . $n1SuccessCount . "<br />";
     echo "n1 Email Failures: " . $n1FailCount . "<br />";
 }
+
+
+//Send a Cron Job Report
+
+$reportrecipients = array(
+   'axelhawker@gmail.com' => 'Axel Hawker',
+);
+
+$Subject = "Daily phpflag Cron Job Report";
+
+$Body = "This is my report: <br />";
+
+foreach($values as $field => $value)
+{
+   $Body = $Body . $field . $value . "<br />";
+}
+
+$AltBody = $Body;
+
+$reportresponse = FlagMail($reportrecipients, $Subject, $Body, $AltBody);
+
+echo "report email: " . $reportresponse;
+
 
 ?>
