@@ -1,6 +1,6 @@
 <?php session_start();
 include "conn.php"; 
-    if (empty($_GET['route']) || !isset($_SESSION["Username"]) ) {
+    if (empty($_GET['route']) || !isset($_GET["name"]) ) {
         header('Location: routes.php'); // Redirecting To Routes Page
 }
     else {
@@ -93,13 +93,14 @@ include "conn.php";
     <div id="main">
         <div class="header">
             <h1>Flag Subscription Manager</h1>
-            <h2><?php echo $_SESSION["displayname"]; ?> - View and manage Flag Routes</h2>
+            <h2><?php echo $_GET["name"]; ?> - View and manage Flag Routes</h2>
         </div>
 
         <div class="content">
-            <h2 class="content-subhead"><?php echo $Route; ?> Route: <?php echo $Count; ?> Flags - Created <?php echo date('l jS \of F Y h:i:s A') ?></h2>
+            <h2 class="content-subhead"><?php echo $Route; ?> Route: <?php echo $Count; ?> Flags - Report Created <?php echo date('l jS \of F Y h:i:s A') . " for " . $_GET["name"]; ?></h2>
             <p><form class="pure-form pure-form-stacked" action="printedroutes.php" method="GET">
                 <input type="hidden" value="<?php echo $Route; ?>" name="route">
+                <input type="hidden" value="<?php echo $_GET["name"]; ?>" name="name">
                 <button type="submit" class="pure-button pure-button-primary">Printer-Friendly Version</button>
             </form></p>
             

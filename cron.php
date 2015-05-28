@@ -293,7 +293,7 @@ if ($n1result->num_rows > 0) {
      $RecipEmail = $n1row['Email'];
      $RecipName = $n1row['Name'];
      $Subject = $n1row['Name'] . " Has a Flag" . $n1row['Task'] . " Assignment";
-     $Body = "Dear " . $n1row['Name'] . ", <br /> <p>This is a friendly reminder that you've been assigned to " . $n1row['Task'] . " flags on " . $n1row['HolidayName'] . " (" . $n1row['HolidayDate'] . ").</p> <p>Please go <a href=''>Download Your Route Now</a>.</p> Thanks,<br />Troop 833";
+     $Body = "Dear " . $n1row['Name'] . ", <br /> <p>You've been assigned to " . $n1row['Task'] . " flags on " . $n1row['HolidayName'] . " (" . $n1row['HolidayDate'] . "). You have been assigned the " . $n1row['Route'] . " Route.</p> <p>Please go <a href='http://flags.troop833.com/routereportsearch.php?route=" . $n1row['Route'] . "&name=" . $n1row['Name'] . "'>Download Your Route Now</a>.</p> Thanks,<br />Troop 833";
      $AltBody = "This is a friendly reminder that you've been assigned to " . $n1row['Task'] . " flags on " . $n1row['HolidayDate'] . ".";
 
      $n1response = FlagMail($recipients, $Subject, $Body, $AltBody);

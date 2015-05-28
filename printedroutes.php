@@ -1,6 +1,6 @@
 <?php session_start();
 include "conn.php"; 
-    if (empty($_GET['route']) || !isset($_SESSION["Username"]) ) {
+    if (empty($_GET['route']) || !isset($_GET["name"]) ) {
         header('Location: routes.php'); // Redirecting To Routes Page
 }
     else {
@@ -35,7 +35,7 @@ include "conn.php";
 ?>
 
         <div class="content">
-            <h2 class="content-subhead"><?php echo $Route; ?> Route: <?php echo $Count; ?> Flags - Created <?php echo date('l jS \of F Y h:i:s A') ?></h2>
+            <h2 class="content-subhead"><?php echo $Route; ?> Route: <?php echo $Count; ?> Flags - Report Created <?php echo date('l jS \of F Y h:i:s A') . " for " . $_GET["name"]; ?></h2>
             
             <table style="width:100%">
 
