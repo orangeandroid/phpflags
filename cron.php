@@ -1,6 +1,5 @@
 <?php include "conn.php"; 
 include "sendmail.php";
-include "email/templates.php";
 
 /*// Notify Customers of Status Changes - Expired
 $ExpiredSuccessCount = 0;
