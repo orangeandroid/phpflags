@@ -14,7 +14,7 @@
 require 'vendor/autoload.php';
 
     
-function FlagMail($RecipEmail, $RecipName, $Subject, $Body, $AltBody) { //
+function FlagMail($recipients, $Subject, $Body, $AltBody) { //
     
 $mail = new PHPMailer;
 
@@ -32,7 +32,13 @@ $mail->Port = 587;                                    // TCP port to connect to
 //Set up E-mail
 $mail->From = 'flags@troop833.com';
 $mail->FromName = 'Troop 833 Flag Service';
-$mail->addAddress($RecipEmail, $RecipName);     // Add a recipient
+    
+// Add recipients
+ foreach($recipients as $email => $name)
+{
+   $mail->addAddress($email, $name);
+}   
+    
 //$mail->addAddress('ellen@example.com');               // Name is optional
 $mail->addReplyTo('flags@troop833.com', 'Troop 833 Flag Service');
 //$mail->addCC('cc@example.com');
