@@ -20,7 +20,7 @@
                             }
                         ?>
                     </select>
-                    
+                    <input type="hidden" value="<?php echo $_SESSION['Username']; ?>" name="name">
                     <button type="submit" class="pure-button pure-button-primary">View Route</button>
                 </fieldset>
             </form>
