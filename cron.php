@@ -21,7 +21,7 @@ if ($Expiredemailresult->num_rows > 0) {
             $RecipEmail = $expdrow['Email'];
             $RecipName = $expdrow['CustomerName'];
             $Subject = 'Your Flag Service Has Ended - Renew Now';
-            $Body = "Dear " . $expdrow['CustomerName'] . ", <br /> <p>Your Flag Service has expired. Please visit <a href='http://troop833.com/flags'> Our Website </a> To Renew. We appreciate your continued support.</p> Thanks,<br />Troop 833";
+            $Body = "Dear " . $expdrow['CustomerName'] . ", <br /> <p>It's been a great year, but your Flag Service for ". $expdrow['HouseNum'] . " " . $expdrow['StreetName'] ." has expired. Please visit <a href='http://troop833.com/flags'> Our Website </a> To Renew. You can also just reply to this e-mail and we'll get back to you.</p> <p> If the web isn't your thing you can give the scoutmaster of Troop 833 a call @ 817.381.6321. </p> <p>We appreciate your continued support.</p> Thanks,<br />Troop 833";
             $AltBody = 'Your Flag Service has ended. To Renew, please visit http://troop833.com/flags';
 
             $expiredresponse = FlagMail($RecipEmail, $RecipName, $Subject, $Body, $AltBody);
@@ -58,7 +58,7 @@ if ($Expiringemailresult->num_rows > 0) {
             $RecipEmail = $expgrow['Email'];
             $RecipName = $expgrow['CustomerName'];
             $Subject = 'Your Flag Service Is Expiring Soon - Renew Now';
-            $Body = 'Your Flag Service ends ' . $expgrow['ExpirationDate'] . '. To Renew, please visit http://troop833.com/flags or reply to this e-mail.';
+            $Body = "Your Flag Service for ". $expgrow['HouseNum'] . " " . $expgrow['StreetName'] ." ends " . $expgrow['ExpirationDate'] . ". Please visit <a href='http://troop833.com/flags'> Our Website </a> To Renew. You can also just reply to this e-mail and we'll get back to you.</p> <p> If the web isn't your thing you can give the scoutmaster of Troop 833 a call @ 817.381.6321. </p> <p>We appreciate your continued support.</p>Thanks, <br /> Troop 833";
             $AltBody = 'Your Flag Service ends ' . $expgrow['ExpirationDate'] . '. To Renew, please visit http://troop833.com/flags or reply to this e-mail.';
 
 
@@ -96,7 +96,7 @@ if ($Activeemailresult->num_rows > 0) {
         $RecipEmail = $activerow['Email'];
         $RecipName = $activerow['CustomerName'];
         $Subject = 'Your Flag Service Is Now Active - Thanks For Your Support';
-        $Body = "<p>Thank you for your generous support of our Troop. This e-mail is to confirm that your subscription is now active and you will receive service until " . $activerow['ExpirationDate'] . ". </p>Thanks<br />Troop 833";
+        $Body = "<p>Thank you for your generous support of our Troop. This e-mail is to confirm that your subscription is now active and you will receive service until " . $activerow['ExpirationDate'] . ". </p><p>We are a bunch of volunteers and 12-18 yr-old boys so things don't always run perfectly. If you ever have questions or comments about your flag service (or if we just messed up) please shoot an e-mail to flags@troop833.com or call the Scoutmaster of Troop833, Axel, on his cell at 817.381.6321.</p>Thanks<br />Troop 833";
         $AltBody = "Thank you for your generous support of our Troop. This e-mail is to confirm that your subscription is now active and you will receive service until " . $activerow['ExpirationDate'] . ". Thanks, Troop 833";
 
         $activeresponse = FlagMail($RecipEmail, $RecipName, $Subject, $Body, $AltBody);
@@ -223,7 +223,7 @@ if ($n14result->num_rows > 0) {
      $RecipEmail = $n14row['Email'];
      $RecipName = $n14row['Name'];
      $Subject = $n14row['Name'] . " Has a Flag " . $n14row['Task'] . " Assignment";
-     $Body = "Dear " . $n14row['Name'] . ", <br /> <p>This is a friendly reminder that you've been assigned to " . $n14row['Task'] . " flags on " . $n14row['HolidayName'] . " (" . $n14row['HolidayDate'] . ").</p> <p>Please just make sure you're available on that day, and find someone to swap with if you're not. </p> <p>You will be getting another reminder in one week and then one final e-mail the day before with your route attached.</p> Thanks,<br />Troop 833";
+     $Body = "Dear " . $n14row['Name'] . ", <br /> <p>This is a friendly reminder that you've been assigned to " . $n14row['Task'] . " flags on " . $n14row['HolidayName'] . " (" . $n14row['HolidayDate'] . ").</p> <p>Please make sure you're available on that day, and find someone to swap with if you're not. </p> <p>You will be getting another reminder in one week and then one final e-mail the day before with a link to your route. For each customer on the route you will see an action. Sometimes that action involves delivering some flyers. If you'd like to print the flyers ahead of time you can <a href='http://flags.troop833.com/files/Flag-Flyer-4x1.pdf'>Download The Latest Flyer.</a></p> Thanks,<br />Troop 833";
      $AltBody = "This is a friendly reminder that you've been assigned to " . $n14row['Task'] . " flags on " . $n14row['HolidayDate'] . ".";
 
      $n14response = FlagMail($recipients, $Subject, $Body, $AltBody);
