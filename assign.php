@@ -77,7 +77,7 @@ session_start();
                 <th class='tg-031e'>TakeDown</th>
               </tr>
                 
-                <?php $assignsql = "Select * from schedule WHERE DATEDIFF(`HolidayDate`,CURDATE()) > -1";
+                <?php $assignsql = "Select * from schedule WHERE DATEDIFF(`HolidayDate`,CURDATE()) > -1 ORDER By HolidayDate, Task ASC";
                         $result = $con->query($assignsql);
 if ($result->num_rows > 0) {
     while($row = $result->fetch_assoc()){
@@ -86,25 +86,10 @@ if ($result->num_rows > 0) {
 //Echo Table
         echo"
                 <tr>
-                    <td class='tg-031e' rowspan='4'>". $row['HolidayName'] . "<br />" . $row['HolidayDate'] . "</td>
-                <td class='tg-031e'>" . $row['Route1'] . "</td>
-                <td class='tg-031e'>" . $row['SetUp1'] . "</td>
-                <td class='tg-031e'>" . $row['TakeDown1'] . "</td>
-              </tr>
-              <tr>
-                <td class='tg-031e'>" . $row['Route2'] . "</td>
-                <td class='tg-031e'>" . $row['SetUp2'] . "</td>
-                <td class='tg-031e'>" . $row['TakeDown2'] . "</td>
-              </tr>
-              <tr>
-                <td class='tg-031e'>" . $row['Route3'] . "</td>
-                <td class='tg-031e'>" . $row['SetUp3'] . "</td>
-                <td class='tg-031e'>" . $row['TakeDown3'] . "</td>
-              </tr>
-              <tr>
-                <td class='tg-031e'>" . $row['Route4'] . "</td>
-                <td class='tg-031e'>" . $row['SetUp4'] . "</td>
-                <td class='tg-031e'>" . $row['TakeDown4'] . "</td>
+                <td class='tg-031e'>". $row['HolidayName'] . "<br />" . $row['HolidayDate'] . "</td>
+                <td class='tg-031e'>" . $row['Name'] . "</td>
+                <td class='tg-031e'>" . $row['Task'] . "</td>
+                <td class='tg-031e'>" . $row['Route'] . "</td>
               </tr>";
     }
 }
