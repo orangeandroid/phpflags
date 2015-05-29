@@ -90,7 +90,7 @@ if ($NewCX == "False") {
     echo "<option selected='selected' value= '" . $CXVetStatus . "'>" . $CXVetStatus . "</option>";
 }
                          
-                            $sql = "select VetStatus from options where VetStatus<>''";
+                            $sql = "select VetStatus from options where VetStatus != ''";
                             $result = $con->query($sql);
                             if ($result->num_rows > 0) {
                                 // output data of each row
