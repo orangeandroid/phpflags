@@ -2,3 +2,4 @@
 conn.php
 *.sql
 vendor/
+testing.php
