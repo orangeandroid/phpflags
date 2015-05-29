@@ -91,16 +91,16 @@ if ($rtresult->num_rows < 1) {
 else {
 //                                Loop through all the results and display the fields in a nice table
    while($rtrow = $rtresult->fetch_assoc()) {
-//       Clean up VetStatus
-       if ($rtrow["VetStatus"] = 1) {
-           $Vet = "Yes";
-       } 
-       elseif ($rtrow["VetStatus"] = 0) { 
-           $Vet = "No";
-       } 
-       else { 
-           $Vet = "?";
-       }
+////       Clean up VetStatus
+//       if ($rtrow["VetStatus"] = 1) {
+//           $Vet = "Yes";
+//       } 
+//       elseif ($rtrow["VetStatus"] = 0) { 
+//           $Vet = "No";
+//       } 
+//       else { 
+//           $Vet = "?";
+//       }
        
        
        

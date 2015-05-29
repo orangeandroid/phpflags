@@ -15,7 +15,7 @@ $cxresult = $con->query($cxsql);
                                 }
     
                             else {
-                                $LookupResultMessage = "Customer Found, Do you want to update? <br />";
+                                $LookupResultMessage = "Customer Found.<br />";
                                 $cxrow = $cxresult->fetch_assoc();
                                 $CXName = $cxrow["CustomerName"];
                                 $CXPhone = $cxrow["Phone"];

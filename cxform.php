@@ -38,7 +38,13 @@
                     <label for="paymentmethod">Payment Method</label>
                     <select id="paymentmethod" name="paymentmethod">
                        <option value="">Choose One</option>
-                        <?php 
+                        
+                        <?php
+//Show current option as selected
+if ($NewCX == "False") {
+    echo "<option selected='selected' value= '" . $CXPaymentMethod . "'>" . $CXPaymentMethod . "</option>";
+}
+//return valid routes from DB
                             $sql = "select PaymentMethod from options where PaymentMethod<>''";
                             $result = $con->query($sql);
                             if ($result->num_rows > 0) {
@@ -76,10 +82,14 @@
     }
                            ?>> 
                     
-                    <label for="vetstatus">VetStatus</label>
+                    <label for="vetstatus">Veteran(s) in Home?</label>
                     <select id="vetstatus" name="vetstatus">
                        <option value="">Choose One</option>
-                        <?php 
+                        <?php
+                        if ($NewCX == "False") {
+    echo "<option selected='selected' value= '" . $CXVetStatus . "'>" . $CXVetStatus . "</option>";
+}
+                         
                             $sql = "select VetStatus from options where VetStatus<>''";
                             $result = $con->query($sql);
                             if ($result->num_rows > 0) {
@@ -98,7 +108,10 @@
                     <label for="Route">Route</label>
                     <select id="Route" name="route">
                        <option value="">Choose One</option>
-                        <?php 
+                        <?php
+if ($NewCX == "False") {
+    echo "<option selected='selected' value= '" . $CXRoute . "'>" . $CXRoute . "</option>";
+}
                             $sql = "select Route from options where Route<>''";
                             $result = $con->query($sql);
                             if ($result->num_rows > 0) {
@@ -117,7 +130,10 @@
                     <label for="scoutcredit1">Scout Credit 1</label>
                     <select id="scoutcredit1" name="scoutcredit1">
                        <option value="">Choose One</option>
-                        <?php 
+                        <?php
+if ($NewCX == "False") {
+    echo "<option selected='selected' value= '" . $CXScoutCredit1 . "'>" . $CXScoutCredit1 . "</option>";
+}
                             $sql = "select Name from users where Role = 'Scout'";
                             $result = $con->query($sql);
                             if ($result->num_rows > 0) {
@@ -136,7 +152,10 @@
                     <label for="scoutcredit2">Scout Credit 2</label>
                     <select id="scoutcredit2" name="scoutcredit2">
                        <option value="">Choose One</option>
-                        <?php 
+                        <?php
+if ($NewCX == "False") {
+    echo "<option selected='selected' value= '" . $CXScoutCredit2 . "'>" . $CXScoutCredit2 . "</option>";
+}
                             $sql = "select Name from users where Role = 'Scout'";
                             $result = $con->query($sql);
                             if ($result->num_rows > 0) {
@@ -156,6 +175,9 @@
                     <select id="submittedby" name="submittedby">
                        <option value="">Choose One</option>
                         <?php 
+if ($NewCX == "False") {
+    echo "<option selected='selected' value= '" . $CXSubmittedBy . "'>" . $CXSubmittedBy . "</option>";
+}
                             $sql = "select Name from users";
                             $result = $con->query($sql);
                             if ($result->num_rows > 0) {
