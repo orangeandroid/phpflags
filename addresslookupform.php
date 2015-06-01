@@ -1,6 +1,6 @@
  <form class="pure-form pure-form-stacked" action="cxsearch.php" method="GET">
                 <fieldset>
-                    <legend>Record a New Payment</legend>
+                    <legend>Find or Add a Customer</legend>
                     
                     <label for="houseNum">House Number</label>
                     <input id="houseNum" type="number" placeholder="e.g. 436" name="houseNum" required>
