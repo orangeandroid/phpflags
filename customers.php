@@ -68,18 +68,21 @@ header('Location: index.php'); // Redirecting To Home Page
             <h2>Dump of Customer Table</h2>
         </div>
 
-        <div class="content">
-            <h2 class="content-subhead">Renewals</h2>
-                        
-            <table style="width:100%">
+        <div class="tcontent">
+            <h2 class="content-subhead">Renewals</h2>          
+            <table class="pure-table pure-table-bordered">
                 <tr>
-                    <th class="TableHeader">Name</th>
-                    <th class="TableHeader">Address</th>
-                    <th class="TableHeader">Phone</th>
-                    <th class="TableHeader">Email</th>
-                    <th class="TableHeader">Veteran?</th>
-                    <th class="TableHeader">SubStatus</th>
-                    <th class="TableHeader">Expiration Date</th>
+                    <th>Name</th>
+                    <th>Address</th>
+                    <th>Phone</th>
+                    <th>Email</th>
+                    <th>Payment Method</th>
+                    <th>Payment ID</th>
+                    <th>Payment Date</th>
+                    <th>Veteran?</th>
+                    <th>Route</th>
+                    <th>SubStatus</th>
+                    <th>Expiration Date</th>
                 </tr>
                 <?php 
 $rtsql = "Select * from customers ORDER By `StreetName` ASC";
@@ -104,7 +107,7 @@ else {
        
        
        
-       echo "<tr><td>" . $rtrow["CustomerName"]. "</td><td>" . $rtrow["HouseNum"]. " " . $rtrow["StreetName"] . " Mansfield, TX 76063</td><td>" . $rtrow["Phone"] . "</td><td><a href=\"Mailto:" . $rtrow["Email"] . "\">" . $rtrow["Email"] . "</a></td><td>" . $rtrow['VetStatus'] . "</td><td>" . $rtrow["SubStatus"]. "</td><td>" . $rtrow["ExpirationDate"]. "</td><td><a href='cxsearch.php?houseNum=" . $rtrow["HouseNum"] . "&" . "streetName=" . $rtrow["StreetName"] . "'>Edit</a></td></tr>";
+       echo "<tr><td>" . $rtrow["CustomerName"]. "</td><td>" . $rtrow["HouseNum"]. " " . $rtrow["StreetName"] . "</td><td>" . $rtrow["Phone"] . "</td><td><a href=\"Mailto:" . $rtrow["Email"] . "\">" . $rtrow["Email"] . "</a></td><td>" . $rtrow['PaymentMethod'] . "</td><td>" . $rtrow['PaymentID'] . "</td><td>" . $rtrow['PaymentDate'] . "</td><td>" . $rtrow['VetStatus'] . "</td><td>" . $rtrow['Route'] . "</td><td>" . $rtrow["SubStatus"]. "</td><td>" . $rtrow["ExpirationDate"]. "</td><td><a href='cxsearch.php?houseNum=" . $rtrow["HouseNum"] . "&" . "streetName=" . $rtrow["StreetName"] . "'>Edit</a></td></tr>";
 
                     }
 }

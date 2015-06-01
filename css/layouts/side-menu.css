@@ -211,6 +211,14 @@ Hides the menu at `48em`, but modify this based on your app's needs.
     .content {
         padding-left: 2em;
         padding-right: 2em;
+        overflow-x: auto;
+        white-space: nowrap;
+    }
+    
+        .tcontent {
+        padding-left: 2em;
+        padding-right: 2em;
+        white-space: nowrap;
     }
 
     #layout {
@@ -251,6 +259,7 @@ Hides the menu at `48em`, but modify this based on your app's needs.
     border-spacing:0;
     border-color:#ccc;
     margin:0px auto;
+    overflow-x: auto;
 }
 .tg td{
     font-family:Arial, sans-serif;
@@ -274,6 +283,7 @@ Hides the menu at `48em`, but modify this based on your app's needs.
     border-color:#ccc;
     color:#333;
     background-color:#f0f0f0;
+    min-width: 100px;
 }
 @media screen and (max-width: 767px) {
     .tg {
@@ -285,4 +295,8 @@ Hides the menu at `48em`, but modify this based on your app's needs.
     .tg-wrap {
         overflow-x: auto;-webkit-overflow-scrolling: touch;margin: auto 0px;
     }
+}
+
+.tablecontainer {
+    overflow-x: scroll;
 }
