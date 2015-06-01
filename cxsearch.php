@@ -100,11 +100,12 @@ $cxresult = $con->query($cxsql);
         <div class="content">
             <h2 class="content-subhead">Subscription Management</h2>
             <p>
-                This should be the street number: 
+                Results for: 
                 <?php
 //                    $StreetName = mysqli_real_escape_string($con, $_POST['streetName']);
-                    echo $CXName . " " . $HouseNum . " " . $StreetName; 
+                    echo $HouseNum . " " . $StreetName . "<br />"; 
                     echo "<br>" . $LookupResultMessage;
+if ($NewCX == "False") {
                     echo "Name: " . $CXName . "<br />";
                     echo "Phone: " . $CXPhone . "<br />";
                     echo "Email: " . $CXEmail . "<br />";
@@ -117,6 +118,10 @@ $cxresult = $con->query($cxsql);
                     echo "Scout2: " . $CXScoutCredit2 . "<br />";
                     echo "Submitted: " . $CXSubmittedBy . "<br />";
                     echo "SubStatus: " . $cxrow["SubStatus"] ."<br />";
+}
+else {
+//Do Nothing
+}
 
                 ?>
             </p>

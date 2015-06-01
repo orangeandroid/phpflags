@@ -11,7 +11,7 @@
     else {
         echo "value=\"" . $CXName . "\"";
     }
-                           ?>>
+                           ?> required>
                     
                     <label for="phone">Phone Number</label>
                     <input id="phone" type="tel" placeholder="555-555-1234" name="phone" 
@@ -80,10 +80,10 @@ if ($NewCX == "False") {
     else {
         echo "value=\"" . $CXPaymentDate . "\"";
     }
-                           ?>> 
+                           ?> required> 
                     
                     <label for="vetstatus">Veteran(s) in Home?</label>
-                    <select id="vetstatus" name="vetstatus">
+                    <select id="vetstatus" name="vetstatus" required>
                        <option value="">Choose One</option>
                         <?php
                         if ($NewCX == "False") {
@@ -106,7 +106,7 @@ if ($NewCX == "False") {
                     </select>
                     
                     <label for="Route">Route</label>
-                    <select id="Route" name="route">
+                    <select id="Route" name="route" required>
                        <option value="">Choose One</option>
                         <?php
 if ($NewCX == "False") {

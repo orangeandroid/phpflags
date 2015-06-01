@@ -76,6 +76,7 @@ session_start();
                         include("addresslookupform.php");
                     }
     ?>
+            <p><a href="customers.php">View All Customers</a></p>
         </div>
     </div>
 </div>
