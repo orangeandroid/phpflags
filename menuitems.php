@@ -6,7 +6,7 @@
 <?php 
 
 if (isset($_SESSION['role']) and $_SESSION['role'] == 'Admin') { 
-    echo "<li class='pure-menu-item'><a href='register.php' class='pure-menu-link'>Register New User</a>";
+    echo "<li class='pure-menu-item'><a href='register.php' class='pure-menu-link'>Users</a>";
 }
 ?>
                 <li class="pure-menu-item"><a href="logout.php" class="pure-menu-link">Logout</a>
