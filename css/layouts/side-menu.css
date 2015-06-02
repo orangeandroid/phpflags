@@ -283,7 +283,7 @@ Hides the menu at `48em`, but modify this based on your app's needs.
     border-color:#ccc;
     color:#333;
     background-color:#f0f0f0;
-    min-width: 100px;
+    min-width: 75px;
 }
 @media screen and (max-width: 767px) {
     .tg {

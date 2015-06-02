@@ -76,7 +76,7 @@ session_start();
                         include("addresslookupform.php");
                     }
     ?>
-            <p><a href="customers.php">View All Customers</a></p>
+            <p><a class = "pure-button" href="customers.php">View All Customers</a></p>
         </div>
     </div>
 </div>

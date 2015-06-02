@@ -68,10 +68,10 @@ header('Location: index.php'); // Redirecting To Home Page
             <h2>Low-Hanging Fruit</h2>
         </div>
 
-        <div class="content">
+        <div class="tcontent">
             <h2 class="content-subhead">Renewals</h2>
                         
-            <table style="width:100%">
+            <table class="pure-table pure-table-bordered">
                 <tr>
                     <th class="TableHeader">Name</th>
                     <th class="TableHeader">Address</th>
@@ -104,7 +104,7 @@ else {
        
        
        
-       echo "<tr><td>" . $rtrow["CustomerName"]. "</td><td>" . $rtrow["HouseNum"]. " " . $rtrow["StreetName"] . " Mansfield, TX 76063</td><td>" . $rtrow["Phone"] . "</td><td><a href=\"Mailto:" . $rtrow["Email"] . "\">" . $rtrow["Email"] . "</a></td><td>" . $rtrow['VetStatus'] . "</td><td>" . $rtrow["SubStatus"]. "</td><td>" . $rtrow["ExpirationDate"]. "</td><td><a href='cxsearch.php?houseNum=" . $rtrow["HouseNum"] . "&" . "streetName=" . $rtrow["StreetName"] . "'>Edit</a></td></tr>";
+       echo "<tr><td>" . $rtrow["CustomerName"]. "</td><td>" . $rtrow["HouseNum"]. " " . $rtrow["StreetName"] . "</td><td>" . $rtrow["Phone"] . "</td><td><a href=\"Mailto:" . $rtrow["Email"] . "\">" . $rtrow["Email"] . "</a></td><td>" . $rtrow['VetStatus'] . "</td><td>" . $rtrow["SubStatus"]. "</td><td>" . $rtrow["ExpirationDate"]. "</td><td><a href='cxsearch.php?houseNum=" . $rtrow["HouseNum"] . "&" . "streetName=" . $rtrow["StreetName"] . "'>Edit</a></td></tr>";
 
                     }
 }
