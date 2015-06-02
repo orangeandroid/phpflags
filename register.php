@@ -7,16 +7,17 @@ if(!isset($_SESSION["Username"]) or $_SESSION["role"] != 'Admin') {
 }
 
 
-if (isset($_POST['newusername'])) {                               
+if (isset($_POST['newusername'])) {
+        $newUsername = mysqli_real_escape_string($con, $_POST['newusername']);
         $newName = mysqli_real_escape_string($con, $_POST['newname']);
-        $newEmail = mysqli_real_escape_string($con, $_POST['newusername']);
+        $newEmail = mysqli_real_escape_string($con, $_POST['newemail']);
         $rawPassword = mysqli_real_escape_string($con, $_POST['newpassword']);
         $Password = password_hash($rawPassword, PASSWORD_DEFAULT);
         $alternateEmail = mysqli_real_escape_string($con, $_POST['altemail']);
         $role = mysqli_real_escape_string($con, $_POST['role']);
         
     
-        $registersql = "INSERT INTO users(Name, Email, Password, AlternateEmail, Role) VALUES ('" . $newName . "','" . $newEmail . "','" . $Password . "','" . $alternateEmail . "','"  . $role . "')";
+        $registersql = "INSERT INTO users(Name, Username, Email, Password, AlternateEmail, Role) VALUES ('" . $newName . "','" . $newUsername . "','" . $newEmail . "','" . $Password . "','" . $alternateEmail . "','"  . $role . "')";
         $registerresult = $con->query($registersql);
                             if ($registerresult == "True") {
                                 $_SESSION['Notification'] = "User added";
@@ -103,12 +104,15 @@ if (isset($_POST['newusername'])) {
                     <label for="newname">Name</label>
                     <input id="newname" type="name" placeholder="First and Last Name" name="newname" required>
                     
+                    <label for="username">Username</label>
+                    <input id="username" type="name" placeholder="Username" name="newusername" required>  
+                    
                     <label for="email">Email</label>
-                    <input id="email" type="email" placeholder="Email" name="newusername" required>
+                    <input id="email" type="email" placeholder="Email" name="newemail" required>
 
-                    <label for="altemail">Alternate (Parent) Email</label>
-                    <input id="altemail" type="email" placeholder="Parent's Email" name="altemail" required>
-
+                    <label for="altemail1">Alternate (Parent) Email 1</label>
+                    <input id="altemail1" type="email" placeholder="Dad's Email" name="altemail" required>
+                    
                     <label for="password">Password</label>
                     <input id="password" type="password" placeholder="Password" name="newpassword" required>
 
