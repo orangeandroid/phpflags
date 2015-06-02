@@ -2,8 +2,8 @@
     <fieldset>
         <legend>You Are Not Logged In</legend>
 
-        <label for="email">Email</label>
-        <input id="email" type="email" placeholder="Email" name="username">
+        <label for="username">Username</label>
+        <input id="username" type="text" placeholder="Username" name="username">
 
         <label for="password">Password</label>
         <input id="password" type="password" placeholder="Password" name="password">

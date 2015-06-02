@@ -7,7 +7,7 @@ if (empty($_POST['username'])) {
         $Username = mysqli_real_escape_string($con, $_POST['username']);
         $rawPassword = mysqli_real_escape_string($con, $_POST['password']);
 //        $Password = password_hash($rawPassword, PASSWORD_DEFAULT);
-        $loginsql = "Select Name, Password, Role from users where Email = '" . $Username . "'";
+        $loginsql = "Select Name, Password, Role from users where Username = '" . $Username . "'";
         $loginresult = $con->query($loginsql);
                             if ($loginresult->num_rows == 1) {
                                     
