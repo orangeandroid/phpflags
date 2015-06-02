@@ -21,7 +21,7 @@ if ($Expiredemailresult->num_rows > 0) {
             $RecipEmail = $expdrow['Email'];
             $RecipName = $expdrow['CustomerName'];
             $Subject = 'Your Flag Service Has Ended - Renew Now';
-            $Body = "Dear " . $expdrow['CustomerName'] . ", <br /> <p>It's been a great year, but your Flag Service for ". $expdrow['HouseNum'] . " " . $expdrow['StreetName'] ." has expired. Please visit <a href='http://troop833.com/flags'> Our Website </a> To Renew. You can also just reply to this e-mail and we'll get back to you.</p> <p> If the web isn't your thing you can give the scoutmaster of Troop 833 a call @ 817.381.6321. </p> <p>We appreciate your continued support.</p> Thanks,<br />Troop 833";
+            $Body = "Dear " . $expdrow['CustomerName'] . ", <br /> <p>It's been a great year, but your Flag Service for ". $expdrow['HouseNum'] . " " . $expdrow['StreetName'] ." has expired. Please visit <a href='http://troop833.com/flags'> Our Website </a> To Renew. You can also just reply to this e-mail and we'll get back to you.</p> <p> If the web isn't your thing you can give the scoutmaster of Troop 833 a call @ 817.381.6321. </p> <p>We appreciate your continued support.</p> <p>If you think this is an error and your subscription is NOT expired, PLEASE let us know so we can update our records and make it right before the next holiday.</p>Thanks,<br />Troop 833";
             $AltBody = 'Your Flag Service has ended. To Renew, please visit http://troop833.com/flags';
 
             $expiredresponse = FlagMail($RecipEmail, $RecipName, $Subject, $Body, $AltBody);
@@ -58,7 +58,7 @@ if ($Expiringemailresult->num_rows > 0) {
             $RecipEmail = $expgrow['Email'];
             $RecipName = $expgrow['CustomerName'];
             $Subject = 'Your Flag Service Is Expiring Soon - Renew Now';
-            $Body = "Your Flag Service for ". $expgrow['HouseNum'] . " " . $expgrow['StreetName'] ." ends " . $expgrow['ExpirationDate'] . ". Please visit <a href='http://troop833.com/flags'> Our Website </a> To Renew. You can also just reply to this e-mail and we'll get back to you.</p> <p> If the web isn't your thing you can give the scoutmaster of Troop 833 a call @ 817.381.6321. </p> <p>We appreciate your continued support.</p>Thanks, <br /> Troop 833";
+            $Body = "Your Flag Service for ". $expgrow['HouseNum'] . " " . $expgrow['StreetName'] ." ends " . $expgrow['ExpirationDate'] . ". Please visit <a href='http://troop833.com/flags'> Our Website </a> To Renew. You can also just reply to this e-mail and we'll get back to you.</p> <p> If the web isn't your thing you can give the scoutmaster of Troop 833 a call @ 817.381.6321. </p> <p>We appreciate your continued support.</p><p>If you think this is an error and your subscription is NOT expired, PLEASE let us know so we can update our records and make it right before the next holiday.</p>Thanks, <br /> Troop 833";
             $AltBody = 'Your Flag Service ends ' . $expgrow['ExpirationDate'] . '. To Renew, please visit http://troop833.com/flags or reply to this e-mail.';
 
 
