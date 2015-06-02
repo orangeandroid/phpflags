@@ -5,23 +5,28 @@ if (empty($_POST['username'])) {
     }
     else {
         $Username = mysqli_real_escape_string($con, $_POST['username']);
-        $Password = mysqli_real_escape_string($con, $_POST['password']);
-        $loginsql = "Select Name, Password from users where Email = '" . $Username . "' and Password = '" . $Password . "'";
+        $rawPassword = mysqli_real_escape_string($con, $_POST['password']);
+//        $Password = password_hash($rawPassword, PASSWORD_DEFAULT);
+        $loginsql = "Select Name, Password, Role from users where Email = '" . $Username . "'";
         $loginresult = $con->query($loginsql);
                             if ($loginresult->num_rows == 1) {
+                                    
                                     $loginrow = $loginresult->fetch_assoc();
+                                if (password_verify($rawPassword, $loginrow['Password'])) {   
                                     $_SESSION["displayname"] = $loginrow["Name"];
                                     $_SESSION["Username"] = $Username;
+                                    $_SESSION['role'] = $loginrow["Role"];
                                 }
                                 
                             else {
-                                echo "Looks like you've entered an incorrect combination. ";
+//                                echo "You entered an incorrect combination.";
 //                                echo "You entered " . $Password;
 //                                    $loginrow = $loginresult->fetch_assoc();
 //                                echo " Your username was " . $Username;
                                 }
                                 
                             }
+    }
 
 ?>
 <!doctype html>
@@ -114,4 +119,3 @@ if (empty($_POST['username'])) {
 
 </body>
 </html>
-]
