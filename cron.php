@@ -22,7 +22,7 @@ if ($Expiredemailresult->num_rows > 0) {
                 $expdrow['Email'] => $expdrow['CustomerName']
             );
             $Subject = 'Your Flag Service Has Ended - Renew Now';
-            $Body = "Dear " . $expdrow['CustomerName'] . ", <br /> <p>It's been a great year, but your Flag Service for ". $expdrow['HouseNum'] . " " . $expdrow['StreetName'] ." has expired. You can <a href='https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=ZRE7QE6F3FHZC'>Click Here to Renew Now</a>. You can also just reply to this e-mail and we'll get back to you.</p> <p> If the web isn't your thing you can give the scoutmaster of Troop 833 a call @ 817.381.6321. </p> <p>We appreciate your continued support.</p> <p>If you think this is an error and your subscription is NOT expired, PLEASE let us know so we can update our records and make it right before the next holiday.</p>Thanks,<br />Troop 833";
+            $Body = "Dear " . $expdrow['CustomerName'] . ", <br /> <p>It's been a great year, but your Flag Service for ". $expdrow['HouseNum'] . " " . $expdrow['StreetName'] ." has expired. <a href='https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=ZRE7QE6F3FHZC'>Click Here to Renew Now</a>. You can also just reply to this e-mail and we'll get back to you.</p> <p> If the web isn't your thing you can give the scoutmaster of Troop 833 a call @ 817.381.6321. </p> <p>We appreciate your continued support.</p> <p>If you think this is an error and your subscription is NOT expired, PLEASE let us know so we can update our records and make it right before the next holiday.</p>Thanks,<br />Troop 833";
             $AltBody = 'Your Flag Service has ended. To Renew, please visit http://troop833.com/flags';
 
             $expiredresponse = FlagMail($expdrecipients, $Subject, $Body, $AltBody);
@@ -188,6 +188,9 @@ if ($n30result->num_rows > 0) {
 
      if ($n30response == 'Success') {
          $n30SuccessCount++;
+         //    update the database so we don't send the notification again
+         $n30updatesql = "update schedule set Notified = 30 WHERE DATEDIFF(`HolidayDate`,CURDATE()) between 14 and 30 and Notified = 300 and ID='". $n30row['ID'] . "'";
+         $n30updateresult = $con->query($n30updatesql);
      }
      else {
          $n30FailCount++;
@@ -196,8 +199,8 @@ if ($n30result->num_rows > 0) {
  
  
 //    update the database so we don't send the notification again
-$n30updatesql = "update schedule set Notified = 30 WHERE DATEDIFF(`HolidayDate`,CURDATE()) between 14 and 30 and Notified = 300";
-$n30updateresult = $con->query($n30updatesql);
+//$n30updatesql = "update schedule set Notified = 30 WHERE DATEDIFF(`HolidayDate`,CURDATE()) between 14 and 30 and Notified = 300";
+//$n30updateresult = $con->query($n30updatesql);
 
     $values["n30 Email Success: "] = $n30SuccessCount;
     $values["n30 Email Failures: "] = $n30FailCount;
@@ -233,6 +236,9 @@ if ($n14result->num_rows > 0) {
 
      if ($n14response == 'Success') {
          $n14SuccessCount++;
+         //    update the database so we don't send the notification again
+         $n14updatesql = "update schedule set Notified = 14 WHERE DATEDIFF(`HolidayDate`,CURDATE()) between 7 and 14 and Notified = 30 and ID='". $n14row['ID'] . "'";
+         $n14updateresult = $con->query($n14updatesql);
      }
      else {
          $n14FailCount++;
@@ -240,9 +246,8 @@ if ($n14result->num_rows > 0) {
      }
  
  
-//    update the database so we don't send the notification again
-$n14updatesql = "update schedule set Notified = 14 WHERE DATEDIFF(`HolidayDate`,CURDATE()) between 7 and 14 and Notified = 30";
-$n14updateresult = $con->query($n14updatesql);
+
+
 echo "Holidays Notified=30 <br />";
     $values["n14 Email Success: "] = $n14SuccessCount;
     $values["n14 Email Failures: "] = $n14FailCount;
@@ -277,6 +282,9 @@ if ($n7result->num_rows > 0) {
 
      if ($n7response == 'Success') {
          $n7SuccessCount++;
+         //    update the database so we don't send the notification again
+         $n7updatesql = "update schedule set Notified = 7 WHERE DATEDIFF(`HolidayDate`,CURDATE()) between 3 and 7 and Notified = 14 ID='". $n14row['ID'] . "'";
+         $n7updateresult = $con->query($n7updatesql);
      }
      else {
          $n7FailCount++;
@@ -284,9 +292,7 @@ if ($n7result->num_rows > 0) {
      }
  
  
-//    update the database so we don't send the notification again
-$n7updatesql = "update schedule set Notified = 7 WHERE DATEDIFF(`HolidayDate`,CURDATE()) between 3 and 7 and Notified = 14";
-$n7updateresult = $con->query($n7updatesql);
+
 echo "Holidays Notified=30 <br />";
     $values["n7 Email Success: "] = $n7SuccessCount;
     $values["n7 Email Failures: "] = $n7FailCount;
@@ -321,6 +327,9 @@ if ($n1result->num_rows > 0) {
 
      if ($n1response == 'Success') {
          $n1SuccessCount++;
+         //    update the database so we don't send the notification again
+         $n1updatesql = "update schedule set Notified = 1 WHERE DATEDIFF(`HolidayDate`,CURDATE()) between 0 and 2 and Notified = 7 and ID='". $n14row['ID'] . "'";
+         $n1updateresult = $con->query($n1updatesql);
      }
      else {
          $n1FailCount++;
@@ -328,9 +337,7 @@ if ($n1result->num_rows > 0) {
      }
  
  
-//    update the database so we don't send the notification again
-$n1updatesql = "update schedule set Notified = 1 WHERE DATEDIFF(`HolidayDate`,CURDATE()) between 0 and 2 and Notified = 7";
-$n1updateresult = $con->query($n1updatesql);
+
 echo "Holidays Notified=30 <br />";
     $values["n1 Email Success: "] = $n1SuccessCount;
     $values["n1 Email Failures: "] = $n1FailCount;
