@@ -34,7 +34,7 @@ $mail->From = 'flags@troop833.com';
 $mail->FromName = 'Troop 833 Flag Service';
     
 // Add recipients
- foreach($recipients as $email => $name)
+foreach($recipients as $email => $name)
 {
    $mail->addAddress($email, $name);
 }   
