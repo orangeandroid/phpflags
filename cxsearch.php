@@ -118,6 +118,7 @@ if ($NewCX == "False") {
                     echo "Scout2: " . $CXScoutCredit2 . "<br />";
                     echo "Submitted: " . $CXSubmittedBy . "<br />";
                     echo "SubStatus: " . $cxrow["SubStatus"] ."<br />";
+                    echo "<a class = 'pure-button' href='cxhistory.php?houseNum=" . $HouseNum . "&streetName=" . $StreetName . "'>View Customer History</a>";
 }
 else {
 //Do Nothing
@@ -134,8 +135,9 @@ else {
                     elseif($_SESSION['role'] == 'Admin' or $_SESSION['role'] =='Leader') {
                         include("cxform.php");
                     }
-                    echo "Look up Another Address";
+                    echo "<hr>Look up Another Address";
                     include('addresslookupform.php');
+
                     
     
     ?>

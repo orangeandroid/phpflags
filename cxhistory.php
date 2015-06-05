@@ -4,6 +4,14 @@ if(!isset($_SESSION["Username"])) {
     // session isn't started
 header('Location: index.php'); // Redirecting To Home Page
 }
+    if (empty($_GET['houseNum']) || empty($_GET['streetName'])) {
+        echo "";
+}
+    else {
+        $StreetName = mysqli_real_escape_string($con, $_GET['streetName']);
+        $HouseNum = mysqli_real_escape_string($con, $_GET['houseNum']);
+    }
+
 
 ?>
 <!doctype html>
@@ -64,14 +72,15 @@ header('Location: index.php'); // Redirecting To Home Page
 
     <div id="main">
         <div class="header">
-            <h1>All Customers</h1>
-            <h2>Dump of Customer Table</h2>
+            <h1>Customer History</h1>
+            <h2>All Changes to Account</h2>
         </div>
 
         <div class="tcontent">
             <h2 class="content-subhead">Renewals</h2>          
             <table class="pure-table pure-table-bordered">
                 <tr>
+                    <th>Date Modified</th>
                     <th>Name</th>
                     <th>Address</th>
                     <th>Phone</th>
@@ -85,10 +94,10 @@ header('Location: index.php'); // Redirecting To Home Page
                     <th>Expiration Date</th>
                 </tr>
                 <?php 
-$rtsql = "Select * from customers ORDER By `StreetName` ASC";
+$rtsql = "Select * from customers_audit where HouseNum = '" . $HouseNum . "' and StreetName='" . $StreetName . "' ORDER By `UpdatedDate` DESC";
 $rtresult = $con->query($rtsql);
 if ($rtresult->num_rows < 1) {
-    $_SESSION["Notification"] = "No Customers in that Route";
+    $_SESSION["Notification"] = "Customer Does Not Exist";
 }
     
 else {
@@ -107,12 +116,13 @@ else {
        
        
        
-       echo "<tr><td>" . $rtrow["CustomerName"]. "</td><td><a href='cxsearch.php?houseNum=" . $rtrow["HouseNum"] . "&" . "streetName=" . $rtrow["StreetName"] . "'>" . $rtrow["HouseNum"]. " " . $rtrow["StreetName"] . "</a></td><td>" . $rtrow["Phone"] . "</td><td><a href=\"Mailto:" . $rtrow["Email"] . "\">" . $rtrow["Email"] . "</a></td><td>" . $rtrow['PaymentMethod'] . "</td><td>" . $rtrow['PaymentID'] . "</td><td>" . $rtrow['PaymentDate'] . "</td><td>" . $rtrow['VetStatus'] . "</td><td>" . $rtrow['Route'] . "</td><td>" . $rtrow["SubStatus"]. "</td><td>" . $rtrow["ExpirationDate"]. "</td></tr>";
+       echo "<tr><td>" . $rtrow["UpdatedDate"]. "</td><td>" . $rtrow["CustomerName"]. "</td><td>" . $rtrow["HouseNum"]. " " . $rtrow["StreetName"] . "</td><td>" . $rtrow["Phone"] . "</td><td><a href=\"Mailto:" . $rtrow["Email"] . "\">" . $rtrow["Email"] . "</a></td><td>" . $rtrow['PaymentMethod'] . "</td><td>" . $rtrow['PaymentID'] . "</td><td>" . $rtrow['PaymentDate'] . "</td><td>" . $rtrow['VetStatus'] . "</td><td>" . $rtrow['Route'] . "</td><td>" . $rtrow["SubStatus"]. "</td><td>" . $rtrow["ExpirationDate"]. "</td></tr>";
 
                     }
 }
     ?>
                 </table>
+            <?php echo "<a class='pure-button' href='cxsearch.php?houseNum=" . $HouseNum . "&" . "streetName=" . $StreetName . "'>Back to Customer</a>"; ?>
         </div>
     </div>
 </div>
