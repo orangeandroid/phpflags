@@ -131,9 +131,12 @@ else {
                     // session isn't started
                         include("loginform.php");
                     }
-                    else {
+                    elseif($_SESSION['role'] == 'Admin' or $_SESSION['role'] =='Leader') {
                         include("cxform.php");
-                }
+                    }
+                    echo "Look up Another Address";
+                    include('addresslookupform.php');
+                    
     
     ?>
             
