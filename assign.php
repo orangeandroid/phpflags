@@ -5,6 +5,18 @@ session_start();
         header('Location: index.php'); // Redirecting To Home Page
     }
 
+if (isset($_POST['holidayName'])) {
+    $HolidayName = mysqli_real_escape_string($con, $_POST['holidayName']);
+    $HolidayDate = mysqli_real_escape_string($con, $_POST['holidayDate']);
+    $Name = mysqli_real_escape_string($con, $_POST['scoutName']);
+    $Task = mysqli_real_escape_string($con, $_POST['task']);
+    $Route = mysqli_real_escape_string($con, $_POST['route']);
+    
+    
+    $sql = "INSERT INTO `schedule`(`HolidayName`, `HolidayDate`, `Name`, `Task`, `Route`, `Notified`) VALUES ('".$HolidayName."','".$HolidayDate."','".$Name."','".$Task."','".$Route."','300')";
+    $result = $con->query($sql);
+}
+
 ?>
 <!doctype html>
 <html lang="en">
@@ -89,14 +101,20 @@ if ($result->num_rows > 0) {
                 <td class='tg-031e'>". $row['HolidayName'] . "<br />" . $row['HolidayDate'] . "</td>
                 <td class='tg-031e'>" . $row['Name'] . "</td>
                 <td class='tg-031e'>" . $row['Task'] . "</td>
-                <td class='tg-031e'>" . $row['Route'] . "</td>
-              </tr>";
+                <td class='tg-031e'>" . $row['Route'] . "</td>";
+        if ($_SESSION['role'] == 'Admin') {
+                    echo "<td class='tg-031e'><a href='assignedit.php?ID=" . $row['ID'] . " class='pure-button pure-button-primary'>Edit Assignment</a></td>";
+                }
+        echo "</tr>";
     }
 }
 
                 ?>
                 
             </table>
+            <?php if ($_SESSION['role'] == 'Admin') {
+                    include('assignform.php');
+                } ?>
         </div>
     </div>
 </div>
