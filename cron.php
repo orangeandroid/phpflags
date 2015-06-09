@@ -283,7 +283,7 @@ if ($n7result->num_rows > 0) {
      if ($n7response == 'Success') {
          $n7SuccessCount++;
          //    update the database so we don't send the notification again
-         $n7updatesql = "update schedule set Notified = 7 WHERE DATEDIFF(`HolidayDate`,CURDATE()) between 3 and 7 and Notified = 14 ID='". $n14row['ID'] . "'";
+         $n7updatesql = "update schedule set Notified = 7 WHERE DATEDIFF(`HolidayDate`,CURDATE()) between 3 and 7 and Notified = 14 and ID='". $n7row['ID'] . "'";
          $n7updateresult = $con->query($n7updatesql);
      }
      else {
@@ -328,7 +328,7 @@ if ($n1result->num_rows > 0) {
      if ($n1response == 'Success') {
          $n1SuccessCount++;
          //    update the database so we don't send the notification again
-         $n1updatesql = "update schedule set Notified = 1 WHERE DATEDIFF(`HolidayDate`,CURDATE()) between 0 and 2 and Notified = 7 and ID='". $n14row['ID'] . "'";
+         $n1updatesql = "update schedule set Notified = 1 WHERE DATEDIFF(`HolidayDate`,CURDATE()) between 0 and 2 and Notified = 7 and ID='". $n1row['ID'] . "'";
          $n1updateresult = $con->query($n1updatesql);
      }
      else {
