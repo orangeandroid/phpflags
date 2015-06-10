@@ -5,7 +5,7 @@ session_start();
         header('Location: index.php'); // Redirecting To Home Page
     }
 
-if (isset($_POST['holidayName'])) {
+if (isset($_POST['holidayName']) and !isset($_POST['update'])) {
     $HolidayName = mysqli_real_escape_string($con, $_POST['holidayName']);
     $HolidayDate = mysqli_real_escape_string($con, $_POST['holidayDate']);
     $Name = mysqli_real_escape_string($con, $_POST['scoutName']);
@@ -15,6 +15,20 @@ if (isset($_POST['holidayName'])) {
     
     $sql = "INSERT INTO `schedule`(`HolidayName`, `HolidayDate`, `Name`, `Task`, `Route`, `Notified`) VALUES ('".$HolidayName."','".$HolidayDate."','".$Name."','".$Task."','".$Route."','300')";
     $result = $con->query($sql);
+}
+
+else if(isset($_POST['holidayName']) and $_POST['update'] == 'True') {
+    $HolidayName = mysqli_real_escape_string($con, $_POST['holidayName']);
+    $HolidayDate = mysqli_real_escape_string($con, $_POST['holidayDate']);
+    $Name = mysqli_real_escape_string($con, $_POST['scoutName']);
+    $Task = mysqli_real_escape_string($con, $_POST['task']);
+    $Route = mysqli_real_escape_string($con, $_POST['route']);
+    $Notified = mysqli_real_escape_string($con, $_POST['notified']);
+    $ID = mysqli_real_escape_string($con, $_POST['ID']);
+    
+    
+    $sql = "UPDATE `schedule` SET `HolidayName`='" . $HolidayName . "',`HolidayDate`='" . $HolidayDate . "',`Name`='" . $Name . "',`Task`='" . $Task . "',`Route`='" . $Route . "',`Notified`='" . $Notified . "' WHERE ID = '" . $ID . "'";
+    $result = $con->query($sql);    
 }
 
 ?>
@@ -84,9 +98,9 @@ if (isset($_POST['holidayName'])) {
             <table class='tg'>
               <tr>
                 <th class='tg-031e'>Holiday</th>
+                <th class='tg-031e'>Scout Assigned</th>
+                <th class='tg-031e'>Task</th>
                 <th class='tg-031e'>Route</th>
-                <th class='tg-031e'>Setup</th>
-                <th class='tg-031e'>TakeDown</th>
               </tr>
                 
                 <?php $assignsql = "Select * from schedule WHERE DATEDIFF(`HolidayDate`,CURDATE()) > -1 ORDER By HolidayDate, Task ASC";
@@ -103,7 +117,7 @@ if ($result->num_rows > 0) {
                 <td class='tg-031e'>" . $row['Task'] . "</td>
                 <td class='tg-031e'>" . $row['Route'] . "</td>";
         if ($_SESSION['role'] == 'Admin') {
-                    echo "<td class='tg-031e'><a href='assignedit.php?ID=" . $row['ID'] . " class='pure-button pure-button-primary'>Edit Assignment</a></td>";
+                    echo "<td class='tg-031e'><a href='assignedit.php?ID=" . $row['ID'] . "' class='pure-button pure-button-primary'>Edit Assignment</a></td>";
                 }
         echo "</tr>";
     }
