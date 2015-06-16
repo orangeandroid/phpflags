@@ -103,7 +103,7 @@ else if(isset($_POST['holidayName']) and $_POST['update'] == 'True') {
                 <th class='tg-031e'>Route</th>
               </tr>
                 
-                <?php $assignsql = "Select * from schedule WHERE DATEDIFF(`HolidayDate`,CURDATE()) > -1 ORDER By HolidayDate, Task ASC";
+                <?php $assignsql = "Select * from schedule WHERE DATEDIFF(`HolidayDate`,CURDATE()) > -5 ORDER By HolidayDate, Task ASC";
                         $result = $con->query($assignsql);
 if ($result->num_rows > 0) {
     while($row = $result->fetch_assoc()){
