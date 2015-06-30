@@ -62,6 +62,10 @@ $Scout2 = $row['Count'];
 
 $SoldCount = ($Scout1 + $Scout2) * 0.5;
 
+$sql = "select HolidayName, HolidayDate, Task, Route from schedule where Name = '" . $_SESSION['displayname'] . "' Order by HolidayDate ASC";
+$assignresult = $con->query($sql);
+
+
 ?>
 <!doctype html>
 <html lang="en">
@@ -139,8 +143,20 @@ $SoldCount = ($Scout1 + $Scout2) * 0.5;
                     echo "Primary Email: " . $primaryemail . "<br />";
                     echo "Secondary Email: " . $secondaryemail . "<br />";
                     echo "Flags Sold: ".$SoldCount . "<br /><hr>";
-                    echo "Assignments: "
-                    include("userinfochangeform.php");
+                    echo "Assignments:"; ?>
+            <table class="pure-table pure-table-bordered">
+                <tr>
+                    <th>Holiday</th>
+                    <th>Date</th>
+                    <th>Task</th>
+                    <th>Route</th>
+                </tr>
+<?php                   
+            while($rtrow = $assignresult->fetch_assoc()) {
+                    echo "<tr><td>" . $rtrow["HolidayName"]. "</td><td>" . $rtrow["HolidayDate"] . "</td><td>" . $rtrow['Task'] . "</td><td>" . $rtrow['Route'] . "</td></tr>";
+                    }
+                    echo "</table><hr>";
+               include("userinfochangeform.php");
                     echo "<hr>";
                     include("userpwchangeform.php");
                 }
