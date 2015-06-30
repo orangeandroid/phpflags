@@ -1,20 +1,66 @@
 <?php include "conn.php";
 session_start();
 
+
+
+if (!empty($_POST['infochange-submit'])) {
+    $nprimaryemail = mysqli_real_escape_string($con, $_POST['primaryemail']);
+    $nsecondaryemail = mysqli_real_escape_string($con, $_POST['secondaryemail']);
+    $sql = "UPDATE `users` SET `Email`='". $nprimaryemail ."',`AlternateEmail`='". $nsecondaryemail ."' WHERE `Username` = '" . $_SESSION["Username"] . "'";
+    $result = $con->query($sql);
+    $Notification = "E-mail Address(es) updated";
+}
+
+if (!empty($_POST['pwchange-submit'])) {
+    $newpw1 = $_POST['newpw1'];
+    $newpw2 = $_POST['newpw2'];
+    
+    $Username = mysqli_real_escape_string($con, $_SESSION['Username']);
+        $rawPassword = mysqli_real_escape_string($con, $_POST['oldpw']);
+//        $Password = password_hash($rawPassword, PASSWORD_DEFAULT);
+        $loginsql = "Select Password from users where Username = '" . $Username . "'";
+        $loginresult = $con->query($loginsql);
+                            if ($loginresult->num_rows == 1) {
+                                    
+                                    $loginrow = $loginresult->fetch_assoc();
+                                if (password_verify($rawPassword, $loginrow['Password'])) {   
+                                    
+                                    if($newpw1 == $newpw2){
+                                        $NewPassword = password_hash($newpw1, PASSWORD_DEFAULT);
+                                        $sql = "UPDATE `users` SET `Password`='". $NewPassword ."' WHERE `Username` = '" . $Username . "'";
+                                        $result = $con->query($sql);
+                                        $Notification = "Password Changed";
+
+                                    }
+                                    else {
+                                        $Notification = "Passwords Don't Match";
+                                    }
+                                }
+                                
+                                else {
+                                    $Notification = "Wrong Password";
+                                }
+                                
+                            }
+}
+
 $sql = "select * from users where Username = '" . $_SESSION["Username"] . "' ";
 $result = $con->query($sql);
 $row = $result->fetch_assoc();
 $primaryemail = $row["Email"];
 $secondaryemail = $row["AlternateEmail"];
 
-if (!empty($_POST['infochange-submit'])) {
-   $Testing = "InfoChange";
-}
+$sql = "select count(*) as Count from customers where ScoutCredit1 = '" . $_SESSION['displayname'] ."'";
+$result = $con->query($sql);
+$row = $result->fetch_assoc();
+$Scout1 = $row['Count'];
 
-if (!empty($_POST['pwchange-submit'])) {
-   $Testing = "PwChange";
-}
+$sql = "select count(*) as Count from customers where ScoutCredit2 = '" . $_SESSION['displayname'] ."'";
+$result = $con->query($sql);
+$row = $result->fetch_assoc();
+$Scout2 = $row['Count'];
 
+$SoldCount = ($Scout1 + $Scout2) * 0.5;
 
 ?>
 <!doctype html>
@@ -82,8 +128,7 @@ if (!empty($_POST['pwchange-submit'])) {
 
         <div class="content">
             <h2 class="content-subhead">Your Account Details</h2>
-            <?php echo $Testing; ?>
-            <p><?php if(isset($_SESSION["Notification"])){ echo $_SESSION["Notification"];} ?></p>
+            <p><?php if(isset($Notification)){ echo $Notification;} ?></p>
             <?php 
                 if(!isset($_SESSION["Username"]) ) {
                     // session isn't started
@@ -92,7 +137,9 @@ if (!empty($_POST['pwchange-submit'])) {
                 else {
                     echo "You Are Logged In as " . $_SESSION["Username"] . "<br />";
                     echo "Primary Email: " . $primaryemail . "<br />";
-                    echo "Secondary Email: " . $secondaryemail . "<br /><hr>";
+                    echo "Secondary Email: " . $secondaryemail . "<br />";
+                    echo "Flags Sold: ".$SoldCount . "<br /><hr>";
+                    echo "Assignments: "
                     include("userinfochangeform.php");
                     echo "<hr>";
                     include("userpwchangeform.php");
