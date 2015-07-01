@@ -7,6 +7,32 @@ if(!isset($_SESSION["Username"]) or $_SESSION["role"] != 'Admin') {
 }
 
 
+if (!empty($_POST['pwchange-submit'])) {
+    $newpw1 = $_POST['newpw1'];
+    $newpw2 = $_POST['newpw2'];
+    
+    $Username = mysqli_real_escape_string($con, $_POST['user']);
+//        $Password = password_hash($rawPassword, PASSWORD_DEFAULT);
+        $loginsql = "Select Password from users where Username = '" . $Username . "'";
+        $loginresult = $con->query($loginsql);
+                            if ($loginresult->num_rows == 1) { 
+                                    
+                                    if($newpw1 == $newpw2){
+                                        $NewPassword = password_hash($newpw1, PASSWORD_DEFAULT);
+                                        $sql = "UPDATE `users` SET `Password`='". $NewPassword ."' WHERE `Username` = '" . $Username . "'";
+                                        $result = $con->query($sql);
+                                        $Notification = "Password Changed";
+
+                                    }
+                                    else {
+                                        $Notification = "Passwords Don't Match";
+                                    }
+                                
+
+                                
+                            }
+}
+
 if (isset($_POST['newusername'])) {
         $newUsername = mysqli_real_escape_string($con, $_POST['newusername']);
         $newName = mysqli_real_escape_string($con, $_POST['newname']);
@@ -125,6 +151,35 @@ if (isset($_POST['newusername'])) {
                     </select>
 
                     <button type="submit" class="pure-button pure-button-primary">Add User</button>
+                </fieldset>
+            </form>
+            <form class="pure-form pure-form-stacked" action="register.php" method="POST">
+                <fieldset>
+                    <legend>Change A Password</legend>
+                    <label for="user">User</label>
+                    <select id="user" name="user" required>
+                        <option value="">Choose One</option>
+                        <?php
+$sql = "select Name, Username from users";
+$result = $con->query($sql);
+if ($result->num_rows > 0) {
+    // output data of each row
+    while($row = $result->fetch_assoc()) {
+        echo "<option value= \"" . $row["Username"]. "\">" . $row["Name"]. "(". $row['Username'] .")" . "</option>";
+    }
+} 
+
+else {
+    echo "";
+}
+                        ?>
+            </select>
+                    <label for="newpw1">New Password</label>
+                    <input id="newpw1" type="password" placeholder="New Password" name="newpw1" required>
+                    <label for="newpw2">New Password Again</label>
+                    <input id="newpw2" type="password" placeholder="Repeat New Password" name="newpw2" required>
+                    
+                    <button type="submit" class="pure-button pure-button-primary" name="pwchange-submit" value = "Change Password">Change Password</button>
                 </fieldset>
             </form>
         </div>
