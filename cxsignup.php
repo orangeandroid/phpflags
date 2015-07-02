@@ -1,5 +1,7 @@
 <?php include "conn.php";
 session_start();
+$Notification = '';
+$signup = '';
 
 if(isset($_GET['step']) and $_GET['step'] == '1') {
     $StreetName = mysqli_real_escape_string($con, $_GET['streetName']);
@@ -10,16 +12,18 @@ if(isset($_GET['step']) and $_GET['step'] == '1') {
                                     
         $checkrow = $checkresult->fetch_assoc();
         if ($checkrow['Route'] != '') {   
-            echo "congrats, you're on the " . $checkrow['Route'] . " Route.";
+            $Notification = "congrats, you're on the " . $checkrow['Route'] . " Route.";
+            $signup = 'customer';
         }
         
         else {
-            echo "Blank Route";
-        }
+            $Notification =  "You're not currently on one of our routes, If you give us your information we'll contact you once we have enough interest in your area.";
+            $signup = 'interest';
         
+        }
     }
-    else {
-        echo "More or less than one row returned";
+    elseif($checkresult->num_rows == 0) {
+        $Notification =  "We don't have that address in our records, try again?";
     }
 }
 
@@ -89,38 +93,21 @@ if(isset($_GET['step']) and $_GET['step'] == '1') {
 
         <div class="content">
             <h2 class="content-subhead">Subscription Management</h2>
+            <?php echo $Notification;
+            
+            if($signup=='customer') {
+                include 'cxsignupform.php';
+            }
+            elseif($signup == 'interest'){
+                include 'cxinterestform.php';
+            }
+            else {
+                include 'cxaddresscheckform.php';
+            }
+            
+            ?>
 
-<form class="pure-form pure-form-stacked" action="cxsignup.php" method="GET">
-                <fieldset>
-                    <legend>Sign up for our Troop's Flag Service</legend>
-                    
-                    <label for="houseNum">House Number</label>
-                    <input id="houseNum" type="number" placeholder="e.g. 436" name="houseNum" required>
-                    
-                    <label for="streetName">Street Name</label>
-                    <select id="streetName" name="streetName" required>
-                        <option value="">Choose One</option>
-                        <?php
-//                            $cxsql = "select distinct StreetName from customers";
-//                            $cxresult = $con->query($cxsql);
-                            $sql = "select distinct StreetName from alladdresses order by StreetName ASC";
-                            $result = $con->query($sql);
-                            if ($result->num_rows > 0) {
-                                // output data of each row
-                                while($row = $result->fetch_assoc()) {
-                                    echo "<option value= \"" . $row["StreetName"]. "\">" . $row["StreetName"]. "</option>";
-                                }
-                            } 
-    
-                            else {
-                                echo "";
-                            }
-                        ?>
-                    </select>
-                    <input type="hidden" name="step" value='1'>
-                    <button type="submit" class="pure-button pure-button-primary">Next</button>
-                </fieldset>
-            </form>
+
         </div>
     </div>
 </div>
