@@ -134,7 +134,7 @@ if ($NewCX == "False") {
 if ($NewCX == "False") {
     echo "<option selected='selected' value= '" . $CXScoutCredit1 . "'>" . $CXScoutCredit1 . "</option>";
 }
-                            $sql = "select Name from users where Role = 'Scout'";
+                            $sql = "select Name from users";
                             $result = $con->query($sql);
                             if ($result->num_rows > 0) {
                                 // output data of each row
@@ -156,7 +156,7 @@ if ($NewCX == "False") {
 if ($NewCX == "False") {
     echo "<option selected='selected' value= '" . $CXScoutCredit2 . "'>" . $CXScoutCredit2 . "</option>";
 }
-                            $sql = "select Name from users where Role = 'Scout'";
+                            $sql = "select Name from users";
                             $result = $con->query($sql);
                             if ($result->num_rows > 0) {
                                 // output data of each row
