@@ -3,3 +3,4 @@ conn.php
 *.sql
 vendor/
 testing.php
+sendmail.php
