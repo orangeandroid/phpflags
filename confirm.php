@@ -100,11 +100,8 @@ include "conn.php";
 
         <div class="content">
             <h2 class="content-subhead">Thank You</h2>
-            <p><?php if ($GoodtoGo == 'Yes') {
-                    
-                       
-    }
-        
+            <p>
+
         
         You have confirmed your <?php echo $Task; ?> assignment for <?php echo $ScoutName; ?> on <?php echo $HolidayName; ?> (<?php echo $HolidayDate; ?>) along the <?php echo $Route; ?> Route. </p>
         </div>

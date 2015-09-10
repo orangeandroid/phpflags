@@ -181,7 +181,7 @@ if ($n30result->num_rows > 0) {
      $RecipEmail = $n30row['Email'];
      $RecipName = $n30row['Name'];
      $Subject = $n30row['Name'] . " Has a Flag " . $n30row['Task'] . " Assignment";
-     $Body = "Dear " . $n30row['Name'] . ", <br /> <p>This is a friendly reminder that you've been assigned to " . $n30row['Task'] . " flags on " . $n30row['HolidayName'] . " (" . $n30row['HolidayDate'] . ").</p> <p>Please <a href='flags.troop833.com/confirm.php?confirmedby=".$n30row['Email']."&id=".$n30row['ID']."&g2g=y'>Click Here</a> to confirm that you will be available to fulfill your assignment</p> <p>If you are not available for your assignment, it's your responsibility to find a replacement and notify scoutmaster@troop833.com.</p><p>You will be getting another reminder in a couple weeks and then one final e-mail the day before with your route attached.</p> Thanks,<br />Troop 833";
+     $Body = "Dear " . $n30row['Name'] . ", <br /> <p>This is a friendly reminder that you've been assigned to " . $n30row['Task'] . " flags on " . $n30row['HolidayName'] . " (" . $n30row['HolidayDate'] . ").</p> <p>Please <a href='flags.troop833.com/confirm.php?cb=".$n30row['Email']."&id=".$n30row['ID']."&g2g=y'>Click Here</a> to confirm that you will be available to fulfill your assignment</p> <p>If you are not available for your assignment, it's your responsibility to find a replacement and notify scoutmaster@troop833.com.</p><p>You will be getting another reminder in a couple weeks and then one final e-mail the day before with your route attached.</p> Thanks,<br />Troop 833";
      $AltBody = "This is a friendly reminder that you've been assigned to " . $n30row['Task'] . " flags on " . $n30row['HolidayDate'] . ".";
 
      $n30response = FlagMail($recipients, $Subject, $Body, $AltBody);
@@ -229,7 +229,7 @@ if ($n14result->num_rows > 0) {
      $RecipEmail = $n14row['Email'];
      $RecipName = $n14row['Name'];
      $Subject = $n14row['Name'] . " Has a Flag " . $n14row['Task'] . " Assignment";
-     $Body = "Dear " . $n14row['Name'] . ", <br /> <p>This is a friendly reminder that you've been assigned to " . $n14row['Task'] . " flags on " . $n14row['HolidayName'] . " (" . $n14row['HolidayDate'] . ").</p> <p>Please <a href='flags.troop833.com/confirm.php?confirmedby=".$n14row['Email']."&id=".$n14row['ID']."&g2g=y'>Click Here</a> to confirm that you will be available to fulfill your assignment</p> <p>If you are not available for your assignment, it's your responsibility to find a replacement and notify scoutmaster@troop833.com.</p></p> <p>You will be getting another reminder in one week and then one final e-mail the day before with a link to your route. For each customer on the route you will see an action. Sometimes that action involves delivering some flyers. If you'd like to print the flyers ahead of time you can <a href='http://flags.troop833.com/files/Flag-Flyer-4x1.pdf'>Download The Latest Flyer.</a></p> Thanks,<br />Troop 833";
+     $Body = "Dear " . $n14row['Name'] . ", <br /> <p>This is a friendly reminder that you've been assigned to " . $n14row['Task'] . " flags on " . $n14row['HolidayName'] . " (" . $n14row['HolidayDate'] . ").</p> <p>Please <a href='flags.troop833.com/confirm.php?cb=".$n14row['Email']."&id=".$n14row['ID']."&g2g=y'>Click Here</a> to confirm that you will be available to fulfill your assignment</p> <p>If you are not available for your assignment, it's your responsibility to find a replacement and notify scoutmaster@troop833.com.</p></p> <p>You will be getting another reminder in one week and then one final e-mail the day before with a link to your route. For each customer on the route you will see an action. Sometimes that action involves delivering some flyers. If you'd like to print the flyers ahead of time you can <a href='http://flags.troop833.com/files/Flag-Flyer-4x1.pdf'>Download The Latest Flyer.</a></p> Thanks,<br />Troop 833";
      $AltBody = "This is a friendly reminder that you've been assigned to " . $n14row['Task'] . " flags on " . $n14row['HolidayDate'] . ".";
 
      $n14response = FlagMail($recipients, $Subject, $Body, $AltBody);
@@ -275,7 +275,7 @@ if ($n7result->num_rows > 0) {
      $RecipEmail = $n7row['Email'];
      $RecipName = $n7row['Name'];
      $Subject = $n7row['Name'] . " Has a Flag " . $n7row['Task'] . " Assignment";
-     $Body = "Dear " . $n7row['Name'] . ", <br /> <p>This is a friendly reminder that you've been assigned to " . $n7row['Task'] . " flags on " . $n7row['HolidayName'] . " (" . $n7row['HolidayDate'] . ").</p> <p>Please <a href='flags.troop833.com/confirm.php?confirmedby=".$n7row['Email']."&id=".$n7row['ID']."&g2g=y'>Click Here</a> to confirm that you will be available to fulfill your assignment</p> <p>If you are not available for your assignment, it's your responsibility to find a replacement and notify scoutmaster@troop833.com.</p> <p>You will be getting a final e-mail the day before with your route attached.</p> Thanks,<br />Troop 833";
+     $Body = "Dear " . $n7row['Name'] . ", <br /> <p>This is a friendly reminder that you've been assigned to " . $n7row['Task'] . " flags on " . $n7row['HolidayName'] . " (" . $n7row['HolidayDate'] . ").</p> <p>Please <a href='flags.troop833.com/confirm.php?cb=".$n7row['Email']."&id=".$n7row['ID']."&g2g=y'>Click Here</a> to confirm that you will be available to fulfill your assignment</p> <p>If you are not available for your assignment, it's your responsibility to find a replacement and notify scoutmaster@troop833.com.</p> <p>You will be getting a final e-mail the day before with your route attached.</p> Thanks,<br />Troop 833";
      $AltBody = "This is a friendly reminder that you've been assigned to " . $n7row['Task'] . " flags on " . $n7row['HolidayDate'] . ".";
 
      $n7response = FlagMail($recipients, $Subject, $Body, $AltBody);
@@ -321,7 +321,7 @@ if ($n1result->num_rows > 0) {
      $RecipName = $n1row['Name'];
      $Subject = $n1row['Name'] . " Your Flag " . $n1row['Task'] . " Assignment Has Arrived!";
      $Body = "Dear " . $n1row['Name'] . ", <br /> <p>You've been assigned to " . $n1row['Task'] . " flags on " . $n1row['HolidayName'] . " (" . $n1row['HolidayDate'] . "). You have been assigned the " . $n1row['Route'] . " Route.</p> <p>Please go <a href='http://flags.troop833.com/routereportsearch.php?route=" . $n1row['Route'] . "&name=" . $n1row['Name'] . "'>Download Your Route Now</a>.</p>
-     <p>Please <a href='flags.troop833.com/confirm.php?confirmedby=".$n1row['Email']."&id=".$n1row['ID']."&g2g=y'>Click Here</a> to confirm that you received this route</p> <p>If you need help or have questions now, it's time to call someone in the Young Men's Presidency.</p>
+     <p>Please <a href='flags.troop833.com/confirm.php?cb=".$n1row['Email']."&id=".$n1row['ID']."&g2g=y'>Click Here</a> to confirm that you received this route</p> <p>If you need help or have questions now, it's time to call someone in the Young Men's Presidency.</p>
      
      Thanks,<br />Troop 833";
      $AltBody = "This is a friendly reminder that you've been assigned to " . $n1row['Task'] . " flags on " . $n1row['HolidayDate'] . ".";
